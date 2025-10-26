@@ -1,0 +1,18 @@
+/**
+ * GridBody styles
+ */
+
+.gridBody {
+  flex: 1;
+  overflow: auto;
+  background: var(--grid-body-bg, #ffffff);
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: var(--grid-empty-color, #999);
+  font-style: italic;
+}

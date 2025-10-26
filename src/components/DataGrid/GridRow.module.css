@@ -1,0 +1,21 @@
+/**
+ * GridRow styles
+ */
+
+.gridRow {
+  display: flex;
+  border-bottom: 1px solid var(--grid-border, #dee2e6);
+  transition: background-color 0.15s;
+}
+
+.gridRow:hover {
+  background: var(--grid-row-hover, #f8f9fa);
+}
+
+.gridRow.selected {
+  background: var(--grid-row-selected, #e7f1ff);
+}
+
+.gridRow[data-selected="true"] {
+  border-left: 3px solid var(--grid-primary, #007bff);
+}

@@ -1,0 +1,64 @@
+/**
+ * GridHeader styles
+ */
+
+.gridHeader {
+  display: flex;
+  background: var(--grid-header-bg, #f8f9fa);
+  border-bottom: 2px solid var(--grid-border, #dee2e6);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.headerCell {
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: var(--grid-header-text, #212529);
+  border-right: 1px solid var(--grid-border, #dee2e6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  min-width: 100px;
+  flex: 1;
+}
+
+.headerCell:last-child {
+  border-right: none;
+}
+
+.sortable {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sortable:hover {
+  background: var(--grid-header-hover, #e9ecef);
+}
+
+.sortable:active {
+  background: var(--grid-header-active, #dee2e6);
+}
+
+.headerText {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sortIndicator {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  opacity: 0.7;
+}
+
+.headerCell[data-sorted="true"] {
+  background: var(--grid-header-sorted, #e7f1ff);
+}
+
+.headerCell[data-sorted="true"] .sortIndicator {
+  opacity: 1;
+  color: var(--grid-primary, #007bff);
+}
