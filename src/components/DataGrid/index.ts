@@ -8,6 +8,7 @@ export { GridBody } from './GridBody';
 export { GridRow } from './GridRow';
 export { GridCell } from './GridCell';
 export { GridPagination } from './GridPagination';
+export { VirtualScroller } from './VirtualScroller';
 export { GridProvider, useGridContext } from './GridContext';
 
 export type { GridContextValue, GridProviderProps } from './GridContext';

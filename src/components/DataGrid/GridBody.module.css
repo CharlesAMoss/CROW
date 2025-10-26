@@ -6,6 +6,7 @@
   flex: 1;
   overflow: auto;
   background: var(--grid-body-bg, #ffffff);
+  min-height: 0;
 }
 
 .emptyState {

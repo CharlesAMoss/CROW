@@ -30,6 +30,40 @@ body {
   min-height: 100vh;
 }
 
+/* Global scrollbar styling - Earthy Warm Palette */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #a97751 #edddc2;
+}
+
+*::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #edddc2;
+  border: 1px solid #957e65;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #a97751;
+  border-radius: 10px;
+  border: 3px solid #edddc2;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #957e65;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: #41352f;
+}
+
+*::-webkit-scrollbar-corner {
+  background: #edddc2;
+}
+
 h1 {
   font-size: 5.5em;
   line-height: 1.1;

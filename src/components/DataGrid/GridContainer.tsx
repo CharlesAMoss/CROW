@@ -3,7 +3,7 @@
  * Main grid component that orchestrates all grid functionality
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { GridProvider } from './GridContext';
 import { GridHeader } from './GridHeader';
 import { GridBody } from './GridBody';
@@ -63,6 +63,9 @@ export function GridContainer<T extends RowData = RowData>(props: GridContainerP
   const [totalRows, setTotalRows] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  
+  // Use ref for header to enable direct scroll sync without React state
+  const headerRef = useRef<HTMLDivElement>(null);
 
   // Determine if controlled or uncontrolled
   const isControlled = 'data' in props && props.data !== undefined;
@@ -83,6 +86,13 @@ export function GridContainer<T extends RowData = RowData>(props: GridContainerP
 
   const handleError = useCallback((err: Error | null) => {
     setError(err);
+  }, []);
+
+  const handleScroll = useCallback((left: number) => {
+    // Direct DOM manipulation for instant sync
+    if (headerRef.current) {
+      headerRef.current.scrollLeft = left;
+    }
   }, []);
 
   return (
@@ -117,11 +127,20 @@ export function GridContainer<T extends RowData = RowData>(props: GridContainerP
               <GridHeader
                 columns={config.columns}
                 sortable={config.features?.sorting?.enabled !== false}
+                headerRef={headerRef}
               />
               <GridBody
                 data={data}
                 columns={config.columns}
                 getRowId={(row, index) => (row as { id?: string | number }).id ?? index}
+                enableVirtualScroll={config.features?.virtualization?.enabled}
+                containerHeight={config.features?.virtualization?.containerHeight}
+                rowHeight={
+                  typeof config.features?.virtualization?.rowHeight === 'number'
+                    ? config.features.virtualization.rowHeight
+                    : undefined
+                }
+                onScroll={handleScroll}
               />
             </div>
             <GridPagination config={config} />

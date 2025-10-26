@@ -211,6 +211,9 @@ export interface VirtualizationConfig {
   /** Enable virtualization */
   enabled: boolean;
   
+  /** Container height in pixels */
+  containerHeight?: number;
+  
   /** Row height (fixed or function for dynamic) */
   rowHeight?: number | ((index: number) => number);
   

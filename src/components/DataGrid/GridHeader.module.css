@@ -2,13 +2,25 @@
  * GridHeader styles
  */
 
-.gridHeader {
-  display: flex;
-  background: var(--grid-header-bg, #f8f9fa);
-  border-bottom: 2px solid var(--grid-border, #dee2e6);
+.gridHeaderWrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
   position: sticky;
   top: 0;
   z-index: 10;
+  background: var(--grid-header-bg, #f8f9fa);
+  border-bottom: 2px solid var(--grid-border, #dee2e6);
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.gridHeaderWrapper::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.gridHeader {
+  display: flex;
+  min-width: min-content;
 }
 
 .headerCell {

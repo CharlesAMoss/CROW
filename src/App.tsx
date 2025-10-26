@@ -1,8 +1,8 @@
-import { DemoPage } from './components/demo/DemoPage'
+import { VirtualScrollDemo } from './components/demo/VirtualScrollDemo'
 import './App.css'  
 
 function App() {
-  return <DemoPage />
+  return <VirtualScrollDemo />
 }
 
 export default App
