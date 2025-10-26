@@ -60,23 +60,26 @@ displayMode: 'nested-list'
 ## Quick Start
 
 ```typescript
-import { DataGrid } from '@/components/DataGrid';
+import { GridContainer } from './components/DataGrid';
+import { createSpreadsheetDataProvider } from './services/mockDataProviders';
+import type { GridConfig, RowData, DataProvider } from './types';
 
-const config = {
+const config: GridConfig<RowData> = {
   columns: [
-    { key: 'id', header: 'ID', sortable: true },
-    { key: 'name', header: 'Name', sortable: true, filterable: true },
-    { key: 'email', header: 'Email' },
+    { key: 'id', header: 'ID', width: '80px', sortable: true },
+    { key: 'name', header: 'Name', width: '200px', sortable: true },
+    { key: 'email', header: 'Email', width: '250px', sortable: true },
   ],
   displayMode: 'spreadsheet',
   features: {
     sorting: { enabled: true },
-    filtering: { enabled: true },
-    export: { formats: ['csv'] },
+    pagination: { enabled: true, pageSize: 20 },
   }
 };
 
-<DataGrid config={config} dataProvider={myDataProvider} />
+const dataProvider = createSpreadsheetDataProvider(0) as unknown as DataProvider<RowData>;
+
+<GridContainer config={config} dataProvider={dataProvider} />
 ```
 
 ## Key Features
@@ -84,9 +87,11 @@ const config = {
 | Feature | Description | Status |
 |---------|-------------|--------|
 | 🎨 Multiple Display Modes | Switch between 4+ view modes | Planned |
-| ⚡ Virtual Scrolling | Handle 10,000+ rows | Planned |
-| 🔧 Configurable API | Declarative configuration | Planned |
-| 📊 Data Agnostic | Works with any JSON API | Planned |
+| ⚡ Virtual Scrolling | Handle 10,000+ rows | Phase 4 (Next) |
+| 🔧 Configurable API | Declarative configuration | ✅ Complete |
+| 📊 Data Agnostic | Works with any JSON API | ✅ Complete |
+| 🔄 Sorting | Multi-column sorting | ✅ Complete |
+| 📄 Pagination | Page controls & row selector | ✅ Complete |
 | 💾 Export | CSV, JSON export | Planned |
 | 🎭 Smooth Animations | Elegant transitions | Planned |
 | 📝 TypeScript First | Full type safety | In Progress |

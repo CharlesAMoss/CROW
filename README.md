@@ -106,12 +106,15 @@ function MyApp() {
 
 ## Development Status
 
-Currently in **Phase 3** - Core Grid Component implementation.
+Currently in **Phase 4** - Virtual Scrolling implementation.
 
 **Completed:**
 - Phase 0: Project setup ✅
 - Phase 1: Type system (75+ types) ✅  
 - Phase 2: Mock data & data provider ✅
+- Phase 3: Core grid components ✅ (sorting, pagination, 97 tests)
+
+**Live Demo**: Run `npm run dev` and visit http://localhost:5173 to see the spreadsheet mode with sorting and pagination.
 
 See [PLANNING.md](./PLANNING.md) for detailed roadmap and progress.
 
