@@ -24,18 +24,53 @@ export function VirtualScrollDemo() {
 
   const config: GridConfig<RowData> = {
     columns: [
-      { key: 'id', header: 'ID', width: '80px', sortable: true },
-      { key: 'employeeId', header: 'Employee ID', width: '120px', sortable: true },
-      { key: 'firstName', header: 'First Name', width: '150px', sortable: true },
-      { key: 'lastName', header: 'Last Name', width: '150px', sortable: true },
-      { key: 'email', header: 'Email', width: '250px', sortable: true },
-      { key: 'department', header: 'Department', width: '150px', sortable: true },
-      { key: 'position', header: 'Position', width: '180px', sortable: true },
+      { key: 'id', header: 'ID', width: '80px', sortable: true, filterable: true, filterType: 'number' },
+      { key: 'employeeId', header: 'Employee ID', width: '120px', sortable: true, filterable: true, filterType: 'text' },
+      { key: 'firstName', header: 'First Name', width: '150px', sortable: true, filterable: true, filterType: 'text' },
+      { key: 'lastName', header: 'Last Name', width: '150px', sortable: true, filterable: true, filterType: 'text' },
+      { key: 'email', header: 'Email', width: '250px', sortable: true, filterable: true, filterType: 'text' },
+      { 
+        key: 'department', 
+        header: 'Department', 
+        width: '150px', 
+        sortable: true,
+        filterable: true,
+        filterType: 'select',
+        filterOptions: [
+          { label: 'Engineering', value: 'Engineering' },
+          { label: 'Sales', value: 'Sales' },
+          { label: 'Marketing', value: 'Marketing' },
+          { label: 'Human Resources', value: 'Human Resources' },
+          { label: 'Finance', value: 'Finance' },
+          { label: 'Operations', value: 'Operations' },
+        ]
+      },
+      { 
+        key: 'position', 
+        header: 'Position', 
+        width: '180px', 
+        sortable: true,
+        filterable: true,
+        filterType: 'select',
+        filterOptions: [
+          { label: 'Software Engineer', value: 'Software Engineer' },
+          { label: 'Senior Software Engineer', value: 'Senior Software Engineer' },
+          { label: 'Sales Representative', value: 'Sales Representative' },
+          { label: 'Sales Manager', value: 'Sales Manager' },
+          { label: 'Marketing Specialist', value: 'Marketing Specialist' },
+          { label: 'Marketing Manager', value: 'Marketing Manager' },
+          { label: 'HR Specialist', value: 'HR Specialist' },
+          { label: 'Financial Analyst', value: 'Financial Analyst' },
+          { label: 'Operations Manager', value: 'Operations Manager' },
+        ]
+      },
       {
         key: 'salary',
         header: 'Salary',
         width: '120px',
         sortable: true,
+        filterable: true,
+        filterType: 'number',
         formatter: (value) => {
           if (typeof value === 'number') {
             return `$${value.toLocaleString()}`;
@@ -48,6 +83,8 @@ export function VirtualScrollDemo() {
         header: 'Hire Date',
         width: '130px',
         sortable: true,
+        filterable: true,
+        filterType: 'date',
         formatter: (value) => {
           if (value instanceof Date) {
             return value.toLocaleDateString();
@@ -55,13 +92,39 @@ export function VirtualScrollDemo() {
           return String(value);
         },
       },
-      { key: 'location', header: 'Location', width: '150px', sortable: true },
-      { key: 'manager', header: 'Manager', width: '150px', sortable: true },
+      { 
+        key: 'location', 
+        header: 'Location', 
+        width: '150px', 
+        sortable: true,
+        filterable: true,
+        filterType: 'select',
+        filterOptions: [
+          { label: 'New York', value: 'New York' },
+          { label: 'San Francisco', value: 'San Francisco' },
+          { label: 'Los Angeles', value: 'Los Angeles' },
+          { label: 'Chicago', value: 'Chicago' },
+          { label: 'Austin', value: 'Austin' },
+          { label: 'Seattle', value: 'Seattle' },
+          { label: 'Boston', value: 'Boston' },
+          { label: 'Denver', value: 'Denver' },
+        ]
+      },
+      { 
+        key: 'manager', 
+        header: 'Manager', 
+        width: '150px', 
+        sortable: true,
+        filterable: true,
+        filterType: 'text',
+      },
       {
         key: 'performanceRating',
         header: 'Rating',
         width: '80px',
         sortable: true,
+        filterable: true,
+        filterType: 'number',
         formatter: (value) => `${value}/5`,
       },
       {
@@ -69,11 +132,19 @@ export function VirtualScrollDemo() {
         header: 'Projects',
         width: '100px',
         sortable: true,
+        filterable: true,
+        filterType: 'number',
       },
       {
         key: 'isActive',
         header: 'Active',
         width: '100px',
+        filterable: true,
+        filterType: 'select',
+        filterOptions: [
+          { label: 'Active', value: true },
+          { label: 'Inactive', value: false },
+        ],
         formatter: (value) => (value ? '✓ Yes' : '✗ No'),
       },
     ],
@@ -81,6 +152,10 @@ export function VirtualScrollDemo() {
     features: {
       sorting: {
         enabled: true,
+      },
+      filtering: {
+        enabled: true,
+        debounceMs: 300,
       },
       virtualization: {
         enabled: true,

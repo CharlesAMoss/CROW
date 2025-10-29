@@ -70,6 +70,15 @@ export function VirtualScroller<T extends RowData>({
     overscan,
   });
 
+  // Calculate total content width from columns
+  const totalWidth = columns.reduce((sum, col) => {
+    const width = col.width;
+    if (!width) return sum;
+    // Parse width (e.g., "150px" -> 150, or direct number)
+    const numWidth = typeof width === 'number' ? width : parseInt(width, 10);
+    return sum + (isNaN(numWidth) ? 0 : numWidth);
+  }, 0);
+
   // Handle scroll events (both vertical and horizontal)
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     onScroll(e); // Handle vertical scroll for virtualization
@@ -85,10 +94,13 @@ export function VirtualScroller<T extends RowData>({
       onScroll={handleScroll}
       style={{ height: containerHeight }}
     >
-      {/* Spacer to create scrollbar with correct height */}
+      {/* Spacer to create scrollbar with correct height and width */}
       <div
         className={styles.spacer}
-        style={{ height: totalHeight }}
+        style={{ 
+          height: totalHeight,
+          width: totalWidth > 0 ? `${totalWidth}px` : 'auto',
+        }}
       />
       
       {/* Container for visible rows */}

@@ -127,6 +127,7 @@ export function GridContainer<T extends RowData = RowData>(props: GridContainerP
               <GridHeader
                 columns={config.columns}
                 sortable={config.features?.sorting?.enabled !== false}
+                filterable={config.features?.filtering?.enabled === true}
                 headerRef={headerRef}
               />
               <GridBody

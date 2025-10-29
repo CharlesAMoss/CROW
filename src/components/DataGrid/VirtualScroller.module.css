@@ -18,15 +18,16 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 1px;
+  min-width: 1px;
   pointer-events: none;
+  visibility: hidden;
 }
 
 .content {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  min-width: min-content;
   /* Enable GPU acceleration */
   will-change: transform;
 }

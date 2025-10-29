@@ -107,6 +107,69 @@
   position: relative;
 }
 
+/* Grid theme overrides */
+.gridWrapper :global(.gridHeaderWrapper) {
+  background: #edddc2;
+  border-bottom: 2px solid #957e65;
+}
+
+.gridWrapper :global(.headerCell) {
+  color: #3e2c24;
+  border-right: 1px solid #957e65;
+}
+
+.gridWrapper :global(.sortable:hover) {
+  background: #e0d0b3;
+}
+
+.gridWrapper :global(.sortIndicator) {
+  color: #a97751;
+}
+
+.gridWrapper :global(.filterRow) {
+  background: #f5ede0;
+  border-bottom: 1px solid #957e65;
+}
+
+.gridWrapper :global(.filterInput),
+.gridWrapper :global(.filterSelect) {
+  border-color: #957e65;
+  background: white;
+}
+
+.gridWrapper :global(.filterInput:focus),
+.gridWrapper :global(.filterSelect:focus) {
+  border-color: #a97751;
+  box-shadow: 0 0 0 2px rgba(169, 119, 81, 0.15);
+}
+
+.gridWrapper :global(.clearButton) {
+  background: #a97751;
+  color: white;
+}
+
+.gridWrapper :global(.clearButton:hover) {
+  background: #957e65;
+}
+
+.gridWrapper :global(.gridBody) {
+  background: white;
+}
+
+.gridWrapper :global(.gridRow) {
+  border-bottom: 1px solid #edddc2;
+}
+
+.gridWrapper :global(.gridRow:hover) {
+  background: #f9f5f0;
+}
+
+.gridWrapper :global(.gridCell) {
+  border-right: 1px solid #edddc2;
+  color: #3e2c24;
+}
+
+
 /* Distinctive custom scrollbar with earthy theme */
 .gridWrapper :global(.virtualScroller)::-webkit-scrollbar {
   width: 14px;

@@ -7,6 +7,7 @@ import type { RefObject } from 'react';
 import { useGridContext } from './GridContext';
 import type { ColumnDefinition } from '../../types/config.types';
 import type { RowData } from '../../types/grid.types';
+import { ColumnFilter } from './ColumnFilter';
 import styles from './GridHeader.module.css';
 
 export interface GridHeaderProps<T extends RowData = RowData> {
@@ -16,6 +17,8 @@ export interface GridHeaderProps<T extends RowData = RowData> {
   sortable?: boolean;
   /** Ref to header element for scroll sync */
   headerRef?: RefObject<HTMLDivElement | null>;
+  /** Enable filtering */
+  filterable?: boolean;
 }
 
 /**
@@ -25,6 +28,7 @@ export function GridHeader<T extends RowData = RowData>({
   columns,
   sortable = true,
   headerRef,
+  filterable = false,
 }: GridHeaderProps<T>) {
   const { state, dispatch } = useGridContext<T>();
 
@@ -70,28 +74,48 @@ export function GridHeader<T extends RowData = RowData>({
 
   return (
     <div className={styles.gridHeaderWrapper} ref={headerRef}>
-      <div className={styles.gridHeader} role="row">
-        {columns.map((column) => {
-          const columnKey = String(column.key);
-          const isSortable = sortable && (column.sortable ?? true);
-          const sortIndicator = getSortIndicator(columnKey);
+      <div className={styles.gridHeaderContent}>
+        <div className={styles.gridHeader} role="row">
+          {columns.map((column) => {
+            const columnKey = String(column.key);
+            const isSortable = sortable && (column.sortable ?? true);
+            const sortIndicator = getSortIndicator(columnKey);
 
-          return (
-            <div
-              key={columnKey}
-              className={`${styles.headerCell} ${isSortable ? styles.sortable : ''}`}
-              role="columnheader"
-              onClick={() => handleSort(columnKey, isSortable)}
-              style={{ width: column.width }}
-              data-sorted={sortIndicator ? 'true' : 'false'}
-            >
-              <span className={styles.headerText}>{column.header}</span>
-              {sortIndicator && (
-                <span className={styles.sortIndicator}>{sortIndicator}</span>
-              )}
-            </div>
-          );
-        })}
+            return (
+              <div
+                key={columnKey}
+                className={`${styles.headerCell} ${isSortable ? styles.sortable : ''}`}
+                role="columnheader"
+                onClick={() => handleSort(columnKey, isSortable)}
+                style={{ width: column.width }}
+                data-sorted={sortIndicator ? 'true' : 'false'}
+              >
+                <span className={styles.headerText}>{column.header}</span>
+                {sortIndicator && (
+                  <span className={styles.sortIndicator}>{sortIndicator}</span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Filter row */}
+        {filterable && (
+          <div className={styles.filterRow} role="row">
+            {columns.map((column) => {
+              const isFilterable = column.filterable ?? false;
+
+              return isFilterable ? (
+                <ColumnFilter<T>
+                  key={String(column.key)}
+                  column={column}
+                />
+              ) : (
+                <div key={String(column.key)} className={styles.emptyFilterCell} style={{ width: column.width }} />
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

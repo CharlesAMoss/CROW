@@ -85,6 +85,12 @@ export interface ColumnDefinition<T extends RowData = RowData> {
   /** Whether column is filterable (default: false) */
   filterable?: boolean;
   
+  /** Filter type for this column */
+  filterType?: 'text' | 'select' | 'number' | 'date' | 'dateRange';
+  
+  /** Options for select filter */
+  filterOptions?: Array<{ label: string; value: CellValue }>;
+  
   /** Whether column is editable (default: false) */
   editable?: boolean;
   

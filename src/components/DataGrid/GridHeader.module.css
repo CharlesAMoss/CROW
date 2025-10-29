@@ -18,6 +18,12 @@
   display: none; /* Chrome/Safari */
 }
 
+.gridHeaderContent {
+  min-width: min-content;
+  /* Add right padding to account for body's vertical scrollbar */
+  padding-right: 17px;
+}
+
 .gridHeader {
   display: flex;
   min-width: min-content;
@@ -33,7 +39,8 @@
   justify-content: space-between;
   user-select: none;
   min-width: 100px;
-  flex: 1;
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .headerCell:last-child {
@@ -73,4 +80,23 @@
 .headerCell[data-sorted="true"] .sortIndicator {
   opacity: 1;
   color: var(--grid-primary, #007bff);
+}
+
+/* Filter row */
+.filterRow {
+  display: flex;
+  min-width: min-content;
+  border-bottom: 1px solid var(--grid-border, #dee2e6);
+  background: var(--grid-header-bg, #f8f9fa);
+}
+
+.emptyFilterCell {
+  min-width: 100px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--grid-border, #dee2e6);
+  box-sizing: border-box;
+}
+
+.emptyFilterCell:last-child {
+  border-right: none;
 }
