@@ -20,6 +20,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  width: 100%;
 }
 
 .filterInput,
@@ -33,13 +34,22 @@
   background: white;
   color: var(--grid-text, #000);
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
 }
 
 .filterInput:focus,
 .filterSelect:focus {
   border-color: var(--grid-primary, #0066cc);
   box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+}
+
+/* Active state for inputs with values */
+.filterInput.active,
+.filterSelect.active {
+  border-color: var(--grid-primary, #0066cc);
+  background: rgba(0, 102, 204, 0.02);
+  font-weight: 500;
 }
 
 .filterInput::placeholder {
@@ -96,22 +106,21 @@
   -moz-appearance: textfield;
 }
 
-/* Date input: normalize appearance */
+/* Date input: keep native appearance for calendar picker */
 .filterInput[type="date"] {
-  min-width: 0;
-  max-width: 100%;
-  font-family: inherit;
-  box-sizing: border-box;
+  /* Override the base padding-right from .filterInput */
+  padding-right: 0.5rem;
+  width: 100%;
+  flex: 1;
+  /* Ensure color-scheme is set for proper rendering */
+  color-scheme: light;
 }
 
+/* Minimal styling for webkit calendar picker */
 .filterInput[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
-  opacity: 0.6;
-  margin-left: 4px;
-}
-
-.filterInput[type="date"]::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
+  filter: none;
+  /* Let browser render with default size and styling */
 }
 
 .filterInput[type="date"]::-webkit-date-and-time-value {

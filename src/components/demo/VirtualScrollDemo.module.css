@@ -143,6 +143,14 @@
   box-shadow: 0 0 0 2px rgba(169, 119, 81, 0.15);
 }
 
+/* Active filter input state */
+.gridWrapper :global(.filterInput.active),
+.gridWrapper :global(.filterSelect.active) {
+  border-color: #a97751;
+  background: rgba(169, 119, 81, 0.05);
+  font-weight: 500;
+}
+
 .gridWrapper :global(.clearButton) {
   background: #a97751;
   color: white;
@@ -150,6 +158,33 @@
 
 .gridWrapper :global(.clearButton:hover) {
   background: #957e65;
+}
+
+.gridWrapper :global(.clearButton:active) {
+  background: #41352f;
+}
+
+/* Clear all filters button */
+.gridWrapper :global(.clearAllFilters) {
+  color: #a97751;
+  border-color: #a97751;
+  background: #ffffff;
+}
+
+.gridWrapper :global(.clearAllFilters:hover) {
+  background: #a97751;
+  color: #ffffff;
+}
+
+/* Filter badge on headers */
+.gridWrapper :global(.filterBadge) {
+  color: #a97751;
+}
+
+/* Filtered column header styling */
+.gridWrapper :global([data-filtered="true"]) {
+  background: #fff8e6;
+  border-bottom: 2px solid #a97751;
 }
 
 .gridWrapper :global(.gridBody) {

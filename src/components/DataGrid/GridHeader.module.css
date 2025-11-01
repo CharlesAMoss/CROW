@@ -3,25 +3,29 @@
  */
 
 .gridHeaderWrapper {
-  overflow-x: auto;
-  overflow-y: hidden;
   position: sticky;
   top: 0;
   z-index: 10;
   background: var(--grid-header-bg, #f8f9fa);
   border-bottom: 2px solid var(--grid-border, #dee2e6);
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
 }
 
-.gridHeaderWrapper::-webkit-scrollbar {
+.scrollableHeader {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  /* Add padding to compensate for body's vertical scrollbar */
+  padding-right: 17px;
+  box-sizing: content-box;
+}
+
+.scrollableHeader::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
 }
 
 .gridHeaderContent {
   min-width: min-content;
-  /* Add right padding to account for body's vertical scrollbar */
-  padding-right: 17px;
 }
 
 .gridHeader {
@@ -82,6 +86,20 @@
   color: var(--grid-primary, #007bff);
 }
 
+/* Filtered column indicator */
+.headerCell[data-filtered="true"] {
+  background: var(--grid-header-filtered, #fff8e6);
+  border-bottom: 2px solid var(--grid-primary, #007bff);
+}
+
+.filterBadge {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 0.625rem;
+  color: var(--grid-primary, #007bff);
+  vertical-align: middle;
+}
+
 /* Filter row */
 .filterRow {
   display: flex;
@@ -90,8 +108,39 @@
   background: var(--grid-header-bg, #f8f9fa);
 }
 
+/* Clear All Filters row - simple row below filter inputs */
+.clearAllRow {
+  padding: 8px 12px;
+  background: var(--grid-header-bg, #f8f9fa);
+  border-top: 1px solid var(--grid-border, #dee2e6);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.clearAllFilters {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--grid-primary, #007bff);
+  background: white;
+  border: 1px solid var(--grid-primary, #007bff);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.clearAllFilters:hover {
+  background: var(--grid-primary, #007bff);
+  color: white;
+}
+
+.clearAllFilters:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
 .emptyFilterCell {
-  min-width: 100px;
   flex-shrink: 0;
   border-right: 1px solid var(--grid-border, #dee2e6);
   box-sizing: border-box;

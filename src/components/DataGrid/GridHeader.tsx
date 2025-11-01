@@ -72,51 +72,89 @@ export function GridHeader<T extends RowData = RowData>({
     return sort.direction === 'asc' ? '↑' : '↓';
   };
 
+  /**
+   * Check if column has active filter
+   */
+  const hasActiveFilter = (columnKey: string) => {
+    return state.filters.some((f) => f.columnKey === columnKey);
+  };
+
+  /**
+   * Clear all filters
+   */
+  const handleClearAllFilters = () => {
+    dispatch({ type: 'CLEAR_FILTERS' });
+  };
+
+  // Count active filters
+  const activeFilterCount = state.filters.length;
+
   return (
-    <div className={styles.gridHeaderWrapper} ref={headerRef}>
-      <div className={styles.gridHeaderContent}>
-        <div className={styles.gridHeader} role="row">
-          {columns.map((column) => {
-            const columnKey = String(column.key);
-            const isSortable = sortable && (column.sortable ?? true);
-            const sortIndicator = getSortIndicator(columnKey);
-
-            return (
-              <div
-                key={columnKey}
-                className={`${styles.headerCell} ${isSortable ? styles.sortable : ''}`}
-                role="columnheader"
-                onClick={() => handleSort(columnKey, isSortable)}
-                style={{ width: column.width }}
-                data-sorted={sortIndicator ? 'true' : 'false'}
-              >
-                <span className={styles.headerText}>{column.header}</span>
-                {sortIndicator && (
-                  <span className={styles.sortIndicator}>{sortIndicator}</span>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Filter row */}
-        {filterable && (
-          <div className={styles.filterRow} role="row">
+    <div className={styles.gridHeaderWrapper}>
+      <div className={styles.scrollableHeader} ref={headerRef}>
+        <div className={styles.gridHeaderContent}>
+          <div className={styles.gridHeader} role="row">
             {columns.map((column) => {
-              const isFilterable = column.filterable ?? false;
+              const columnKey = String(column.key);
+              const isSortable = sortable && (column.sortable ?? true);
+              const sortIndicator = getSortIndicator(columnKey);
+              const isFiltered = hasActiveFilter(columnKey);
 
-              return isFilterable ? (
-                <ColumnFilter<T>
-                  key={String(column.key)}
-                  column={column}
-                />
-              ) : (
-                <div key={String(column.key)} className={styles.emptyFilterCell} style={{ width: column.width }} />
+              return (
+                <div
+                  key={columnKey}
+                  className={`${styles.headerCell} ${isSortable ? styles.sortable : ''} ${isFiltered ? styles.filtered : ''}`}
+                  role="columnheader"
+                  onClick={() => handleSort(columnKey, isSortable)}
+                  style={{ width: column.width }}
+                  data-sorted={sortIndicator ? 'true' : 'false'}
+                  data-filtered={isFiltered ? 'true' : 'false'}
+                >
+                  <span className={styles.headerText}>
+                    {column.header}
+                    {isFiltered && <span className={styles.filterBadge}>●</span>}
+                  </span>
+                  {sortIndicator && (
+                    <span className={styles.sortIndicator}>{sortIndicator}</span>
+                  )}
+                </div>
               );
             })}
           </div>
-        )}
+
+          {/* Filter row */}
+          {filterable && (
+            <div className={styles.filterRow} role="row">
+              {columns.map((column) => {
+                const isFilterable = column.filterable ?? false;
+
+                return isFilterable ? (
+                  <ColumnFilter<T>
+                    key={String(column.key)}
+                    column={column}
+                  />
+                ) : (
+                  <div key={String(column.key)} className={styles.emptyFilterCell} style={{ width: column.width }} />
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
+      
+      {/* Clear All Filters button row - below filter row, outside scroll */}
+      {filterable && activeFilterCount > 0 && (
+        <div className={styles.clearAllRow}>
+          <button
+            className={styles.clearAllFilters}
+            onClick={handleClearAllFilters}
+            title={`Clear ${activeFilterCount} filter${activeFilterCount > 1 ? 's' : ''}`}
+            type="button"
+          >
+            ✕ Clear All Filters
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -4,11 +4,11 @@
 
 **CROW** (Configurable React Operational Workspace) is a highly flexible, TypeScript-powered data grid system for React that supports multiple display modes: fullbleed gallery, spreadsheet, workflow/planning, and nested lists. It features virtual scrolling, sorting, filtering, pagination, and export capabilities.
 
-**Size**: Medium (~3,000 lines of production code)  
+**Size**: Medium (~3,500 lines of production code)  
 **Type**: React component library with demo application  
 **Stack**: React 19, TypeScript 5.9, Vite 7, Vitest 4, CSS Modules  
-**Test Coverage**: 97 tests across 6 test files  
-**Development Status**: Phase 3 complete (core grid with sorting/pagination), Phase 4 next (virtual scrolling)
+**Test Coverage**: 121 tests across 8 test files (all passing)  
+**Development Status**: Phase 5 complete (filtering with polish), Phase 6 next (advanced features)
 
 ## Critical Build & Validation Commands
 
@@ -27,7 +27,7 @@
    npx vitest run
    ```
    - Takes ~1.5 seconds
-   - Currently 97 tests across 6 files must all pass
+   - Currently 121 tests across 8 files - all must pass
    - Uses jsdom environment for React component testing
    - Coverage reports available with: `npm run test:coverage`
 
@@ -76,20 +76,23 @@ crow/
 ├── .github/                     # GitHub configuration (this file)
 ├── src/
 │   ├── components/
-│   │   ├── DataGrid/           # Core grid components (17 files)
+│   │   ├── DataGrid/           # Core grid components (19 files)
 │   │   │   ├── GridContainer.tsx      # Main orchestrator (controlled/uncontrolled modes)
 │   │   │   ├── GridContext.tsx        # React Context for state management
-│   │   │   ├── GridHeader.tsx         # Column headers with sorting
-│   │   │   ├── GridBody.tsx           # Row container
+│   │   │   ├── GridHeader.tsx         # Column headers with sorting & Clear All button
+│   │   │   ├── GridBody.tsx           # Row container with virtual scrolling
 │   │   │   ├── GridRow.tsx            # Individual row rendering
 │   │   │   ├── GridCell.tsx           # Cell rendering with formatters
 │   │   │   ├── GridPagination.tsx     # Pagination controls
 │   │   │   ├── GridDataFetcher.tsx    # Reactive data fetching
+│   │   │   ├── ColumnFilter.tsx       # Type-aware filter inputs (NEW)
+│   │   │   ├── VirtualScrollContainer.tsx  # Virtual scrolling logic
 │   │   │   ├── *.module.css           # CSS modules for each component
 │   │   │   └── index.ts               # Public exports
 │   │   ├── demo/               # Demo pages
-│   │   │   ├── DemoPage.tsx           # Spreadsheet mode demo
-│   │   │   └── DemoPage.module.css
+│   │   │   ├── DemoPage.tsx           # Basic spreadsheet demo
+│   │   │   ├── VirtualScrollDemo.tsx  # 10K rows with filters (NEW)
+│   │   │   └── *.module.css
 │   │   └── features/           # Future feature modules (empty for now)
 │   ├── types/                  # TypeScript definitions (75+ exports)
 │   │   ├── grid.types.ts              # RowData, CellValue, GridState, GridAction (17 actions)
@@ -244,7 +247,26 @@ const config: GridConfig<RowData> = { /* config */ };
 - **No build cache issues**: Clean builds work reliably, no need to clear cache
 - **Windows PowerShell**: Use `;` to chain commands if needed
 
-## Phase Status (Current: Phase 3 Complete → Starting Phase 4)
+## Phase Status (Current: Phase 5 Complete → Phase 6 Options)
+
+✅ Phase 0: Project setup  
+✅ Phase 1: Type system (75+ types)  
+✅ Phase 2: Mock data & DataProvider  
+✅ Phase 3: Core grid components with sorting, pagination  
+✅ Phase 4: Virtual scrolling (10,000+ rows at 60fps)  
+✅ Phase 5: Column filtering with polish (text, select, number, date)  
+⬜ Phase 6+: Cell editing, advanced features, export, multi-column sort
+
+### Phase 5 Polish Features (October 31, 2025)
+- ✅ **Filter Badges**: Visual ● indicator on filtered column headers
+- ✅ **Active Styling**: Yellow background + border on filtered columns
+- ✅ **Clear All Button**: Dedicated row, right-aligned, one-click filter clearing
+- ✅ **State Sync**: useEffect ensures inputs sync with CLEAR_FILTERS
+- ✅ **Calendar Icon**: Native date picker icon visible and functional
+- ✅ **Alignment Fix**: 17px scrollbar compensation for pixel-perfect column alignment
+- ✅ **Test Coverage**: 121/121 tests passing (24 new ColumnFilter tests)
+
+Refer to PLANNING.md for detailed phase requirements and ARCHITECTURE.md for system design decisions.
 
 ✅ Phase 0: Project setup  
 ✅ Phase 1: Type system (75+ types)  

@@ -81,7 +81,7 @@ export function VirtualScrollDemo() {
       {
         key: 'hireDate',
         header: 'Hire Date',
-        width: '130px',
+        width: '180px', // Increased width for date input with calendar picker
         sortable: true,
         filterable: true,
         filterType: 'date',

@@ -34,6 +34,14 @@ export function ColumnFilter<T extends RowData = RowData>({
       : ''
   );
 
+  // Sync local value when global filter state changes (e.g., CLEAR_FILTERS)
+  useEffect(() => {
+    const filterValue = currentFilter?.value !== null && currentFilter?.value !== undefined 
+      ? String(currentFilter.value) 
+      : '';
+    setLocalValue(filterValue);
+  }, [currentFilter]);
+
   // Debounce filter updates
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -79,12 +87,13 @@ export function ColumnFilter<T extends RowData = RowData>({
   // Render appropriate filter input based on column type
   const renderFilterInput = () => {
     const filterType = column.filterType || 'text';
+    const hasValue = localValue !== '';
 
     switch (filterType) {
       case 'select':
         return (
           <select
-            className={styles.filterSelect}
+            className={`${styles.filterSelect} ${hasValue ? styles.active : ''}`}
             value={localValue}
             onChange={handleChange}
           >
@@ -101,7 +110,7 @@ export function ColumnFilter<T extends RowData = RowData>({
         return (
           <input
             type="number"
-            className={styles.filterInput}
+            className={`${styles.filterInput} ${hasValue ? styles.active : ''}`}
             placeholder="Filter..."
             value={localValue}
             onChange={handleChange}
@@ -112,7 +121,7 @@ export function ColumnFilter<T extends RowData = RowData>({
         return (
           <input
             type="date"
-            className={styles.filterInput}
+            className={`${styles.filterInput} ${hasValue ? styles.active : ''}`}
             value={localValue}
             onChange={handleChange}
           />
@@ -123,7 +132,7 @@ export function ColumnFilter<T extends RowData = RowData>({
         return (
           <input
             type="text"
-            className={styles.filterInput}
+            className={`${styles.filterInput} ${hasValue ? styles.active : ''}`}
             placeholder="Filter..."
             value={localValue}
             onChange={handleChange}
@@ -136,11 +145,14 @@ export function ColumnFilter<T extends RowData = RowData>({
     return <div className={styles.filterCell} />;
   }
 
+  const filterType = column.filterType || 'text';
+  const showClearButton = localValue && filterType !== 'date'; // Don't show clear on date inputs
+
   return (
     <div className={styles.filterCell} style={{ width: column.width }}>
       <div className={styles.filterWrapper}>
         {renderFilterInput()}
-        {localValue && (
+        {showClearButton && (
           <button
             className={styles.clearButton}
             onClick={handleClear}
