@@ -87,14 +87,15 @@ const dataProvider = createSpreadsheetDataProvider(0) as unknown as DataProvider
 | Feature | Description | Status |
 |---------|-------------|--------|
 | 🎨 Multiple Display Modes | Switch between 4+ view modes | Planned |
-| ⚡ Virtual Scrolling | Handle 10,000+ rows | Phase 4 (Next) |
+| ⚡ Virtual Scrolling | Handle 10,000+ rows at 60fps | ✅ Phase 4 |
 | 🔧 Configurable API | Declarative configuration | ✅ Complete |
 | 📊 Data Agnostic | Works with any JSON API | ✅ Complete |
-| 🔄 Sorting | Multi-column sorting | ✅ Complete |
-| 📄 Pagination | Page controls & row selector | ✅ Complete |
-| 💾 Export | CSV, JSON export | Planned |
+| 🔄 Sorting | Multi-column sorting | ✅ Phase 3 |
+| 🔍 Filtering | Type-aware column filters | ✅ Phase 5 |
+| 📄 Pagination | Page controls & row selector | ✅ Phase 3 |
+| 💾 Export | CSV & Excel export (no deps) | ✅ Phase 5 |
 | 🎭 Smooth Animations | Elegant transitions | Planned |
-| 📝 TypeScript First | Full type safety | In Progress |
+| 📝 TypeScript First | Full type safety | ✅ Complete |
 | ♿ Accessible | WCAG compliant | Planned |
 
 ## Architecture at a Glance
@@ -195,19 +196,49 @@ interface ColumnDefinition<T> {
 - 📖 [README.md](./README.md) - Getting started
 - 🏗️ [ARCHITECTURE.md](./ARCHITECTURE.md) - System design
 - 📋 [PLANNING.md](./PLANNING.md) - Development roadmap
-- ✅ [PHASE_0_COMPLETE.md](./PHASE_0_COMPLETE.md) - Setup completion
+- ✅ [PHASE_5_COMPLETE.md](./PHASE_5_COMPLETE.md) - Latest completion report
+
+## Export Data
+
+```typescript
+import { exportToCSV, exportToExcel } from './utils/exportUtils';
+
+// Export to CSV
+exportToCSV(
+  data,                                    // RowData[]
+  ['id', 'name', 'email', 'salary'],      // columns to include
+  ['ID', 'Name', 'Email', 'Salary'],      // custom headers (optional)
+  'my-export'                              // filename (optional)
+);
+
+// Export to Excel
+exportToExcel(
+  data,                                    // RowData[]
+  ['id', 'name', 'email', 'salary'],      // columns to include
+  ['ID', 'Name', 'Email', 'Salary'],      // custom headers (optional)
+  'my-export'                              // filename (optional)
+);
+```
+
+**Features:**
+- ✅ No external dependencies (pure TypeScript)
+- ✅ Type-safe value conversion (dates, booleans, numbers)
+- ✅ Automatic escaping (CSV: commas/quotes, Excel: XML entities)
+- ✅ Handles null/undefined gracefully
+- ✅ 20 comprehensive tests
 
 ## Current Status
 
-**Phase 0 Complete! ✅**
+**Phase 5 Complete! ✅**
 
-- ✅ Documentation created
-- ✅ Dependencies installed
-- ✅ Directory structure ready
-- ✅ Testing framework configured
-- ✅ Build verified
-- ⏳ Ready for Phase 1
+- ✅ 141 tests passing (121 grid + 20 export)
+- ✅ Column filtering with polish
+- ✅ CSV and Excel export functionality
+- ✅ Virtual scrolling (10,000+ rows)
+- ✅ Type-aware filters (text, select, number, date)
+- ✅ Filter badges and Clear All button
+- ⏳ Ready for Phase 6
 
 ---
 
-**Next:** Begin Phase 1 - Type System & Core Interfaces
+**Next:** Phase 6 Options - Cell Editing, Advanced Filtering, Multi-Column Sorting, or Column Management

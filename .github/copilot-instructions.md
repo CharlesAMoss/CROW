@@ -4,11 +4,11 @@
 
 **CROW** (Configurable React Operational Workspace) is a highly flexible, TypeScript-powered data grid system for React that supports multiple display modes: fullbleed gallery, spreadsheet, workflow/planning, and nested lists. It features virtual scrolling, sorting, filtering, pagination, and export capabilities.
 
-**Size**: Medium (~3,500 lines of production code)  
+**Size**: Medium (~3,700 lines of production code)  
 **Type**: React component library with demo application  
 **Stack**: React 19, TypeScript 5.9, Vite 7, Vitest 4, CSS Modules  
-**Test Coverage**: 121 tests across 8 test files (all passing)  
-**Development Status**: Phase 5 complete (filtering with polish), Phase 6 next (advanced features)
+**Test Coverage**: 141 tests across 9 test files (all passing)  
+**Development Status**: Phase 5 complete (filtering with polish + export), Phase 6 next (advanced features)
 
 ## Critical Build & Validation Commands
 
@@ -26,8 +26,8 @@
    ```bash
    npx vitest run
    ```
-   - Takes ~1.5 seconds
-   - Currently 121 tests across 8 files - all must pass
+   - Takes ~1.7 seconds
+   - Currently 141 tests across 9 files - all must pass
    - Uses jsdom environment for React component testing
    - Coverage reports available with: `npm run test:coverage`
 
@@ -114,7 +114,9 @@ crow/
 │   │   ├── mockWorkflow.ts            # Task data (60 tasks)
 │   │   └── mockNested.ts              # Hierarchical data
 │   ├── utils/
-│   │   └── dataTransforms.ts          # sortData, filterData, paginateData (27 tests)
+│   │   ├── dataTransforms.ts          # sortData, filterData, paginateData (27 tests)
+│   │   ├── exportUtils.ts             # CSV/Excel export (20 tests) (NEW)
+│   │   └── exportUtils.test.ts        # Export utilities tests
 │   ├── test/
 │   │   └── setup.ts                   # Vitest configuration
 │   ├── App.tsx                 # Main app (renders DemoPage)

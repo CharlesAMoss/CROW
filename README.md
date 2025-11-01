@@ -18,13 +18,14 @@ CROW is a demonstration of a versatile data grid component that can be configure
 - ⚡ **Virtual Scrolling**: Handles 10,000+ rows with smooth 60fps performance
 - 🔧 **Highly Configurable**: Declarative API for customizing every aspect
 - 📊 **Data Agnostic**: Works with any JSON data source (API, mock, local)
-- � **Smart Rendering**: Only ~20 visible rows rendered at any time
+- 🚀 **Smart Rendering**: Only ~20 visible rows rendered at any time
 - 🎯 **Synchronized Scrolling**: Headers scroll perfectly with body content
-- �💾 **Export Capability**: CSV export with extensible format support
+-  **Export Capability**: CSV and Excel export with no external dependencies
 - 🎭 **Smooth Animations**: GPU-accelerated transforms for optimal performance
 - 📝 **TypeScript First**: Full type safety and IntelliSense support
 - ♿ **Accessible**: WCAG compliant with keyboard navigation
 - 🎨 **Themeable**: Custom color palettes and styled scrollbars
+- 🔍 **Advanced Filtering**: Type-aware filters (text, select, number, date) with debouncing
 
 ## Tech Stack
 
@@ -157,18 +158,22 @@ function MyApp() {
 
 ## Development Status
 
-**Phase 4 COMPLETE** ✅ - Virtual Scrolling with 10,000+ rows
+**Phase 5 COMPLETE** ✅ - Column Filtering with Polish + **Export Functionality** 🎉
 
 **Completed Phases:**
 - ✅ Phase 0: Project setup & tooling
 - ✅ Phase 1: Type system (75+ types, strict TypeScript)
 - ✅ Phase 2: Mock data & DataProvider architecture
-- ✅ Phase 3: Core grid (sorting, pagination, 97 tests)
+- ✅ Phase 3: Core grid (sorting, pagination)
 - ✅ Phase 4: Virtual scrolling (10K rows, 60fps performance)
+- ✅ Phase 5: Column filtering with polish + CSV/Excel export
 
 **Current Status:**
-- 106 tests passing
+- 141 tests passing (121 grid + 20 export tests)
 - Virtual scrolling demo with 10,000 employee records
+- Type-aware column filters (text, select, number, date)
+- Filter badges and Clear All button
+- **CSV and Excel export** (no external dependencies)
 - Smooth 60fps scrolling with GPU acceleration
 - Synchronized horizontal scroll between headers and body
 - Custom themed scrollbars matching brand palette
@@ -177,12 +182,13 @@ function MyApp() {
 **Live Demo**: 
 Run `npm run dev` and visit http://localhost:5173 to see the virtual scrolling demo featuring:
 - 10,000 rows with instant rendering
-- 14 sortable columns with formatted data
+- 14 sortable and filterable columns with formatted data
+- Export buttons for CSV and Excel formats
 - Horizontal and vertical scrolling
 - Real-time performance metrics display
 - Earthy warm color palette (chamoisee, van-dyke, champagne, bistre, beaver)
 
-See [PLANNING.md](./PLANNING.md) for detailed roadmap and [PHASE_4_COMPLETE.md](./PHASE_4_COMPLETE.md) for Phase 4 details.
+See [PLANNING.md](./PLANNING.md) for detailed roadmap and [PHASE_5_COMPLETE.md](./PHASE_5_COMPLETE.md) for Phase 5 details.
 
 ## License
 

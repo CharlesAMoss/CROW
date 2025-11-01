@@ -98,6 +98,52 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
+.exportBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #f5ede0;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid #957e65;
+}
+
+.exportLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #3e2c24;
+  margin-right: 8px;
+  letter-spacing: 0.02em;
+}
+
+.exportButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: #a97751;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(169, 119, 81, 0.3);
+}
+
+.exportButton:hover {
+  background: #957e65;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(169, 119, 81, 0.4);
+}
+
+.exportButton:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(169, 119, 81, 0.3);
+}
+
 .gridWrapper {
   border-radius: 16px;
   overflow: hidden;

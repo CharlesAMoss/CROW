@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { GridContainer } from '../DataGrid';
 import { InMemoryDataProvider } from '../../services/InMemoryDataProvider';
 import { generateLargeDataset } from '../../data/mockLargeDataset';
+import { exportToCSV, exportToExcel } from '../../utils/exportUtils';
 import type { GridConfig } from '../../types/config.types';
 import type { RowData, DataProvider } from '../../types';
 import crowLogo from '../../assets/crow.png';
@@ -21,6 +22,27 @@ export function VirtualScrollDemo() {
       }) as unknown as DataProvider<RowData>,
     [largeData]
   );
+
+  // Export handlers
+  const handleExportCSV = () => {
+    const columns = ['id', 'employeeId', 'firstName', 'lastName', 'email', 'department', 
+                     'position', 'location', 'salary', 'hireDate', 'performanceRating', 
+                     'projectsCompleted', 'manager', 'isActive'] as (keyof RowData)[];
+    const headers = ['ID', 'Employee ID', 'First Name', 'Last Name', 'Email', 'Department',
+                     'Position', 'Location', 'Salary', 'Hire Date', 'Performance Rating',
+                     'Projects Completed', 'Manager', 'Active'];
+    exportToCSV(largeData as unknown as RowData[], columns, headers, 'employee-data');
+  };
+
+  const handleExportExcel = () => {
+    const columns = ['id', 'employeeId', 'firstName', 'lastName', 'email', 'department', 
+                     'position', 'location', 'salary', 'hireDate', 'performanceRating', 
+                     'projectsCompleted', 'manager', 'isActive'] as (keyof RowData)[];
+    const headers = ['ID', 'Employee ID', 'First Name', 'Last Name', 'Email', 'Department',
+                     'Position', 'Location', 'Salary', 'Hire Date', 'Performance Rating',
+                     'Projects Completed', 'Manager', 'Active'];
+    exportToExcel(largeData as unknown as RowData[], columns, headers, 'employee-data');
+  };
 
   const config: GridConfig<RowData> = {
     columns: [
@@ -196,6 +218,24 @@ export function VirtualScrollDemo() {
             <span className={styles.statLabel}>height</span>
           </div>
         </div>
+      </div>
+
+      <div className={styles.exportBar}>
+        <span className={styles.exportLabel}>Export Data:</span>
+        <button 
+          className={styles.exportButton}
+          onClick={handleExportCSV}
+          title="Export to CSV format"
+        >
+          📊 CSV
+        </button>
+        <button 
+          className={styles.exportButton}
+          onClick={handleExportExcel}
+          title="Export to Excel format"
+        >
+          📈 Excel
+        </button>
       </div>
 
       <div className={styles.gridWrapper}>
