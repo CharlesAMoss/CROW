@@ -4,6 +4,7 @@
  */
 
 import { GridCell } from './GridCell';
+import { SelectionColumn } from './SelectionColumn';
 import { useGridContext } from './GridContext';
 import type { ColumnDefinition } from '../../types/config.types';
 import type { RowData } from '../../types/grid.types';
@@ -16,6 +17,10 @@ export interface GridRowProps<T extends RowData = RowData> {
   rowIndex: number;
   /** Column definitions */
   columns: ColumnDefinition<T>[];
+  /** Enable row selection */
+  selectable?: boolean;
+  /** Row key field */
+  rowKey?: keyof T;
 }
 
 /**
@@ -25,9 +30,11 @@ export function GridRow<T extends RowData = RowData>({
   row,
   rowIndex,
   columns,
+  selectable = false,
+  rowKey = 'id' as keyof T,
 }: GridRowProps<T>) {
   const { state } = useGridContext<T>();
-  const rowId = (row as { id?: string | number }).id ?? rowIndex;
+  const rowId = (row[rowKey] as string | number) ?? rowIndex;
   const isSelected = state.selected.has(rowId);
 
   return (
@@ -37,6 +44,15 @@ export function GridRow<T extends RowData = RowData>({
       data-row-index={rowIndex}
       data-selected={isSelected}
     >
+      {/* Selection checkbox */}
+      {selectable && (
+        <SelectionColumn<T>
+          row={row}
+          rowIndex={rowIndex}
+          rowKey={rowKey}
+        />
+      )}
+      
       {columns.map((column, columnIndex) => (
         <GridCell
           key={String(column.key)}

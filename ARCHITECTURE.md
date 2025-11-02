@@ -183,12 +183,30 @@ interface PaginationConfig {
 
 ### Feature Components
 
-1. **SortIndicator**: Visual sort state
-2. **FilterPanel**: Search and filter UI
-3. **EditCell**: Inline editing interface
-4. **ExportButton**: Export trigger
-5. **ModalOverlay**: Cell detail modal
-6. **NestedRow**: Expandable row for hierarchical data
+1. **GridControls**: Unified control bar (Phase 5)
+   - Filter status and clear button
+   - Selection status and clear button
+   - Scalable pattern for future controls (export, actions, etc.)
+   - Only visible when filters or selections active
+
+2. **SelectionColumn**: Row selection (Phase 5)
+   - Checkbox column for multi-select
+   - Works across all display modes
+   - Hidden header checkbox (non-functional Select All)
+   - Shift-click range selection, Ctrl-click multi-select
+
+3. **ColumnFilter**: Type-aware filtering (Phase 5)
+   - Text, select, number, date input types
+   - Debounced updates (300ms)
+   - Active state styling
+   - Clear button per filter
+
+4. **SortIndicator**: Visual sort state
+5. **FilterPanel**: Search and filter UI
+6. **EditCell**: Inline editing interface
+7. **ExportButton**: Export trigger
+8. **ModalOverlay**: Cell detail modal
+9. **NestedRow**: Expandable row for hierarchical data
 
 ## Data Flow
 

@@ -141,6 +141,8 @@
 }
 
 .emptyFilterCell {
+  padding: 0.5rem 1rem;
+  background: var(--grid-filter-bg, #f8f9fa);
   flex-shrink: 0;
   border-right: 1px solid var(--grid-border, #dee2e6);
   box-sizing: border-box;

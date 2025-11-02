@@ -10,6 +10,8 @@ export { GridCell } from './GridCell';
 export { GridPagination } from './GridPagination';
 export { VirtualScroller } from './VirtualScroller';
 export { ColumnFilter } from './ColumnFilter';
+export { SelectionColumn } from './SelectionColumn';
+export { GridControls } from './GridControls';
 export { GridProvider, useGridContext } from './GridContext';
 
 export type { GridContextValue, GridProviderProps } from './GridContext';
@@ -18,3 +20,5 @@ export type { GridBodyProps } from './GridBody';
 export type { GridRowProps } from './GridRow';
 export type { GridCellProps } from './GridCell';
 export type { ColumnFilterProps } from './ColumnFilter';
+export type { SelectionColumnProps } from './SelectionColumn';
+export type { GridControlsProps } from './GridControls';

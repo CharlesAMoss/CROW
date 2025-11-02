@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { GridContainer } from '../DataGrid';
 import { InMemoryDataProvider } from '../../services/InMemoryDataProvider';
 import { generateLargeDataset } from '../../data/mockLargeDataset';
@@ -11,6 +11,7 @@ import styles from './VirtualScrollDemo.module.css';
 export function VirtualScrollDemo() {
   // Generate large dataset (10,000 rows)
   const largeData = useMemo(() => generateLargeDataset(10000), []);
+  const [selectedRows, setSelectedRows] = useState<Set<string | number>>(new Set());
 
   // Create data provider
   const dataProvider = useMemo(
@@ -25,23 +26,31 @@ export function VirtualScrollDemo() {
 
   // Export handlers
   const handleExportCSV = () => {
+    const dataToExport = selectedRows.size > 0
+      ? (largeData as unknown as RowData[]).filter((row) => selectedRows.has((row as { id: string | number }).id))
+      : largeData as unknown as RowData[];
+
     const columns = ['id', 'employeeId', 'firstName', 'lastName', 'email', 'department', 
                      'position', 'location', 'salary', 'hireDate', 'performanceRating', 
                      'projectsCompleted', 'manager', 'isActive'] as (keyof RowData)[];
     const headers = ['ID', 'Employee ID', 'First Name', 'Last Name', 'Email', 'Department',
                      'Position', 'Location', 'Salary', 'Hire Date', 'Performance Rating',
                      'Projects Completed', 'Manager', 'Active'];
-    exportToCSV(largeData as unknown as RowData[], columns, headers, 'employee-data');
+    exportToCSV(dataToExport, columns, headers, 'employee-data');
   };
 
   const handleExportExcel = () => {
+    const dataToExport = selectedRows.size > 0
+      ? (largeData as unknown as RowData[]).filter((row) => selectedRows.has((row as { id: string | number }).id))
+      : largeData as unknown as RowData[];
+
     const columns = ['id', 'employeeId', 'firstName', 'lastName', 'email', 'department', 
                      'position', 'location', 'salary', 'hireDate', 'performanceRating', 
                      'projectsCompleted', 'manager', 'isActive'] as (keyof RowData)[];
     const headers = ['ID', 'Employee ID', 'First Name', 'Last Name', 'Email', 'Department',
                      'Position', 'Location', 'Salary', 'Hire Date', 'Performance Rating',
                      'Projects Completed', 'Manager', 'Active'];
-    exportToExcel(largeData as unknown as RowData[], columns, headers, 'employee-data');
+    exportToExcel(dataToExport, columns, headers, 'employee-data');
   };
 
   const config: GridConfig<RowData> = {
@@ -171,6 +180,7 @@ export function VirtualScrollDemo() {
       },
     ],
     displayMode: 'spreadsheet',
+    rowKey: 'id',
     features: {
       sorting: {
         enabled: true,
@@ -178,6 +188,12 @@ export function VirtualScrollDemo() {
       filtering: {
         enabled: true,
         debounceMs: 300,
+      },
+      selection: {
+        enabled: true,
+        mode: 'multiple',
+        showCheckbox: true,
+        onSelectionChange: setSelectedRows,
       },
       virtualization: {
         enabled: true,
@@ -221,18 +237,20 @@ export function VirtualScrollDemo() {
       </div>
 
       <div className={styles.exportBar}>
-        <span className={styles.exportLabel}>Export Data:</span>
+        <span className={styles.exportLabel}>
+          Export {selectedRows.size > 0 ? `Selected (${selectedRows.size})` : 'All Data'}:
+        </span>
         <button 
           className={styles.exportButton}
           onClick={handleExportCSV}
-          title="Export to CSV format"
+          title={selectedRows.size > 0 ? `Export ${selectedRows.size} selected rows to CSV` : 'Export all rows to CSV'}
         >
           📊 CSV
         </button>
         <button 
           className={styles.exportButton}
           onClick={handleExportExcel}
-          title="Export to Excel format"
+          title={selectedRows.size > 0 ? `Export ${selectedRows.size} selected rows to Excel` : 'Export all rows to Excel'}
         >
           📈 Excel
         </button>

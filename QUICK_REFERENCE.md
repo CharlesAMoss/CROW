@@ -92,8 +92,9 @@ const dataProvider = createSpreadsheetDataProvider(0) as unknown as DataProvider
 | 📊 Data Agnostic | Works with any JSON API | ✅ Complete |
 | 🔄 Sorting | Multi-column sorting | ✅ Phase 3 |
 | 🔍 Filtering | Type-aware column filters | ✅ Phase 5 |
+| ✅ Row Selection | Multi-select with checkboxes | ✅ Nov 2, 2025 |
 | 📄 Pagination | Page controls & row selector | ✅ Phase 3 |
-| 💾 Export | CSV & Excel export (no deps) | ✅ Phase 5 |
+| � Export | CSV & Excel (selected or all) | ✅ Phase 5 |
 | 🎭 Smooth Animations | Elegant transitions | Planned |
 | 📝 TypeScript First | Full type safety | ✅ Complete |
 | ♿ Accessible | WCAG compliant | Planned |
@@ -203,7 +204,7 @@ interface ColumnDefinition<T> {
 ```typescript
 import { exportToCSV, exportToExcel } from './utils/exportUtils';
 
-// Export to CSV
+// Export all rows to CSV
 exportToCSV(
   data,                                    // RowData[]
   ['id', 'name', 'email', 'salary'],      // columns to include
@@ -218,6 +219,10 @@ exportToExcel(
   ['ID', 'Name', 'Email', 'Salary'],      // custom headers (optional)
   'my-export'                              // filename (optional)
 );
+
+// Export only selected rows
+const selectedData = data.filter(row => selectedRows.has(row.id));
+exportToCSV(selectedData, columns, headers, 'selected-rows');
 ```
 
 **Features:**
@@ -225,18 +230,58 @@ exportToExcel(
 - ✅ Type-safe value conversion (dates, booleans, numbers)
 - ✅ Automatic escaping (CSV: commas/quotes, Excel: XML entities)
 - ✅ Handles null/undefined gracefully
+- ✅ Export selected rows or all data
 - ✅ 20 comprehensive tests
+
+## Row Selection
+
+```typescript
+import { useState } from 'react';
+
+const [selectedRows, setSelectedRows] = useState<Set<string | number>>(new Set());
+
+const config: GridConfig<RowData> = {
+  columns: [...],
+  displayMode: 'spreadsheet',
+  features: {
+    selection: {
+      enabled: true,
+      mode: 'multiple',              // 'single' or 'multiple'
+      showCheckbox: true,             // Show checkbox column
+      onSelectionChange: setSelectedRows,  // Callback when selection changes
+    }
+  }
+};
+
+// Use selected rows
+const exportSelected = () => {
+  const dataToExport = data.filter(row => selectedRows.has(row.id));
+  exportToCSV(dataToExport, columns, headers, 'selected-data');
+};
+```
+
+**Features:**
+- ✅ Checkbox column with Select All (indeterminate state)
+- ✅ Shift-click for range selection
+- ✅ Ctrl/Cmd-click for multi-select
+- ✅ Selection counter UI ("5 rows selected")
+- ✅ Clear Selection button
+- ✅ Works with virtual scrolling (10K+ rows)
+- ✅ Works across all display modes
+- ✅ 5 alignment regression tests
 
 ## Current Status
 
-**Phase 5 Complete! ✅**
+**Phase 5 Complete! ✅** (November 2, 2025)
 
-- ✅ 141 tests passing (121 grid + 20 export)
+- ✅ 146 tests passing (121 grid + 20 export + 5 alignment)
 - ✅ Column filtering with polish
-- ✅ CSV and Excel export functionality
-- ✅ Virtual scrolling (10,000+ rows)
+- ✅ Row selection with multi-select
+- ✅ CSV and Excel export (selected or all)
+- ✅ Virtual scrolling (10,000+ rows at 60fps)
 - ✅ Type-aware filters (text, select, number, date)
 - ✅ Filter badges and Clear All button
+- ✅ Alignment regression tests
 - ⏳ Ready for Phase 6
 
 ---

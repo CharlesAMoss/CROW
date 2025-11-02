@@ -1,0 +1,60 @@
+/**
+ * SelectionColumn styles
+ * Checkbox column for row selection
+ */
+
+.selectionColumn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 0; /* Match header cell vertical padding, no horizontal */
+  min-width: 48px;
+  max-width: 48px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--grid-border, #dee2e6);
+  box-sizing: border-box;
+}
+
+.selectionColumn.header {
+  font-weight: 600;
+  background: var(--grid-header-bg, #f8f9fa);
+}
+
+/* Hide the header checkbox - it's non-functional and looks ugly */
+.selectionColumn.header .checkbox {
+  visibility: hidden;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin: 0;
+  accent-color: #a97751;
+  transition: all 0.15s ease;
+  /* Soften the appearance */
+  opacity: 0.7;
+  border-radius: 3px;
+}
+
+.checkbox:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.checkbox:checked {
+  opacity: 1;
+}
+
+.checkbox:focus-visible {
+  outline: 2px solid #a97751;
+  outline-offset: 2px;
+  border-radius: 3px;
+  opacity: 1;
+}
+
+/* Indeterminate state styling (handled by browser) */
+.checkbox:indeterminate {
+  accent-color: #957e65;
+  opacity: 0.85;
+}

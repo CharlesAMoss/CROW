@@ -20,6 +20,10 @@ interface VirtualScrollerProps<T extends RowData> {
   overscan?: number;
   /** Callback for horizontal scroll sync */
   onHorizontalScroll?: (scrollLeft: number) => void;
+  /** Enable row selection */
+  selectable?: boolean;
+  /** Row key field */
+  rowKey?: keyof T;
 }
 
 /**
@@ -34,6 +38,8 @@ export function VirtualScroller<T extends RowData>({
   containerHeight = 600,
   overscan = 10,
   onHorizontalScroll,
+  selectable = false,
+  rowKey = 'id' as keyof T,
 }: VirtualScrollerProps<T>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [measuredHeight, setMeasuredHeight] = useState(containerHeight);
@@ -120,6 +126,8 @@ export function VirtualScroller<T extends RowData>({
               row={row}
               rowIndex={index}
               columns={columns}
+              selectable={selectable}
+              rowKey={rowKey}
             />
           );
         })}

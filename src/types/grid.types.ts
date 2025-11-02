@@ -138,6 +138,8 @@ export type GridAction =
   | { type: 'TOGGLE_SELECT'; payload: string | number }
   | { type: 'SELECT_ALL' }
   | { type: 'DESELECT_ALL' }
+  | { type: 'CLEAR_SELECTION' }
+  | { type: 'SELECT_RANGE'; payload: { from: string | number; to: string | number } }
   | { type: 'START_EDIT'; payload: CellLocation }
   | { type: 'CANCEL_EDIT' }
   | { type: 'SAVE_EDIT'; payload: { rowIndex: number; changes: Partial<RowData> } }

@@ -1,0 +1,75 @@
+/**
+ * GridControls styles
+ * Unified control bar for filters, selection, and actions
+ */
+
+.gridControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: var(--grid-controls-bg, #f8f9fa);
+  border-bottom: 1px solid var(--grid-border, #dee2e6);
+  gap: 1rem;
+  font-size: 13px;
+  min-height: 36px;
+}
+
+.statusInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  color: var(--grid-text-muted, #6c757d);
+}
+
+.filterStatus,
+.selectionStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.filterStatus {
+  color: #a97751;
+  font-weight: 500;
+}
+
+.selectionStatus {
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.clearButton {
+  padding: 0.25rem 0.75rem;
+  font-size: 12px;
+  border: 1px solid var(--grid-border, #dee2e6);
+  background: white;
+  color: var(--grid-text, #000000);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.clearButton:hover {
+  background: #f8f9fa;
+  border-color: #a97751;
+  color: #a97751;
+}
+
+.clearButton:active {
+  transform: scale(0.98);
+}
+
+.clearButton:focus-visible {
+  outline: 2px solid #a97751;
+  outline-offset: 2px;
+}

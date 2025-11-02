@@ -116,6 +116,25 @@ export function gridReducer(state: GridState, action: GridAction): GridState {
         selected: new Set(),
       };
 
+    case 'CLEAR_SELECTION':
+      return {
+        ...state,
+        selected: new Set(),
+      };
+
+    case 'SELECT_RANGE': {
+      // For shift-click range selection
+      // Note: This requires row data context to work properly
+      // For now, just toggle both endpoints
+      const newSelected = new Set(state.selected);
+      newSelected.add(action.payload.from);
+      newSelected.add(action.payload.to);
+      return {
+        ...state,
+        selected: newSelected,
+      };
+    }
+
     case 'START_EDIT':
       return {
         ...state,

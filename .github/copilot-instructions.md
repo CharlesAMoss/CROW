@@ -2,13 +2,13 @@
 
 ## Repository Overview
 
-**CROW** (Configurable React Operational Workspace) is a highly flexible, TypeScript-powered data grid system for React that supports multiple display modes: fullbleed gallery, spreadsheet, workflow/planning, and nested lists. It features virtual scrolling, sorting, filtering, pagination, and export capabilities.
+**CROW** (Configurable React Operational Workspace) is a highly flexible, TypeScript-powered data grid system for React that supports multiple display modes: fullbleed gallery, spreadsheet, workflow/planning, and nested lists. It features virtual scrolling, sorting, filtering, row selection, and export capabilities.
 
-**Size**: Medium (~3,700 lines of production code)  
+**Size**: Medium (~3,900 lines of production code)  
 **Type**: React component library with demo application  
 **Stack**: React 19, TypeScript 5.9, Vite 7, Vitest 4, CSS Modules  
-**Test Coverage**: 141 tests across 9 test files (all passing)  
-**Development Status**: Phase 5 complete (filtering with polish + export), Phase 6 next (advanced features)
+**Test Coverage**: 146 tests across 10 test files (all passing)  
+**Development Status**: Phase 5 complete (filtering + export + row selection), Phase 6 next (advanced features)
 
 ## Critical Build & Validation Commands
 
@@ -26,8 +26,8 @@
    ```bash
    npx vitest run
    ```
-   - Takes ~1.7 seconds
-   - Currently 141 tests across 9 files - all must pass
+   - Takes ~1.9 seconds
+   - Currently 146 tests across 10 files - all must pass
    - Uses jsdom environment for React component testing
    - Coverage reports available with: `npm run test:coverage`
 
@@ -256,17 +256,28 @@ const config: GridConfig<RowData> = { /* config */ };
 ✅ Phase 2: Mock data & DataProvider  
 ✅ Phase 3: Core grid components with sorting, pagination  
 ✅ Phase 4: Virtual scrolling (10,000+ rows at 60fps)  
-✅ Phase 5: Column filtering with polish (text, select, number, date)  
-⬜ Phase 6+: Cell editing, advanced features, export, multi-column sort
+✅ Phase 5: Filtering + Export + Row Selection (text, select, number, date filters)  
+⬜ Phase 6+: Cell editing, advanced features, multi-column sort
+
+### Phase 5 Complete Features (November 2, 2025)
+- ✅ **Column Filtering**: Type-aware filters (text, select, number, date) with debouncing
+- ✅ **Filter Polish**: Active badges, Clear All button, state synchronization
+- ✅ **Export**: CSV & Excel export (no external dependencies, 20 tests)
+- ✅ **Row Selection**: Multi-select with checkboxes, shift-click ranges, ctrl-click
+- ✅ **GridControls**: Unified control bar for filters and selection (scalable pattern)
+- ✅ **Export Selected**: Filter export by selected rows
+- ✅ **Alignment Tests**: 5 structural tests to prevent regressions
+- ✅ **146 tests passing** (121 grid + 20 export + 5 alignment)
 
 ### Phase 5 Polish Features (October 31, 2025)
 - ✅ **Filter Badges**: Visual ● indicator on filtered column headers
 - ✅ **Active Styling**: Yellow background + border on filtered columns
-- ✅ **Clear All Button**: Dedicated row, right-aligned, one-click filter clearing
+- ✅ **Clear All Button**: Now integrated into GridControls unified control bar
 - ✅ **State Sync**: useEffect ensures inputs sync with CLEAR_FILTERS
 - ✅ **Calendar Icon**: Native date picker icon visible and functional
-- ✅ **Alignment Fix**: 17px scrollbar compensation for pixel-perfect column alignment
-- ✅ **Test Coverage**: 121/121 tests passing (24 new ColumnFilter tests)
+- ✅ **Alignment Fix**: 17px scrollbar compensation + consistent padding/box-sizing
+- ✅ **Test Coverage**: 146/146 tests passing (24 ColumnFilter + 5 GridHeader alignment)
+- ✅ **Hidden Select All**: Header checkbox visually hidden (non-functional, cleaner UI)
 
 Refer to PLANNING.md for detailed phase requirements and ARCHITECTURE.md for system design decisions.
 

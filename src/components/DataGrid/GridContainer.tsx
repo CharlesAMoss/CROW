@@ -9,6 +9,7 @@ import { GridHeader } from './GridHeader';
 import { GridBody } from './GridBody';
 import { GridDataFetcher } from './GridDataFetcher';
 import { GridPagination } from './GridPagination';
+import { GridControls } from './GridControls';
 import type { GridConfig } from '../../types/config.types';
 import type { DataProvider } from '../../types/data.types';
 import type { RowData } from '../../types/grid.types';
@@ -123,17 +124,23 @@ export function GridContainer<T extends RowData = RowData>(props: GridContainerP
         )}
         {!loading && !error && data.length > 0 && (
           <>
+            {/* Unified control bar for filters and selection */}
+            <GridControls filterable={config.features?.filtering?.enabled === true} />
+            
             <div className={styles.gridContent}>
               <GridHeader
                 columns={config.columns}
                 sortable={config.features?.sorting?.enabled !== false}
                 filterable={config.features?.filtering?.enabled === true}
                 headerRef={headerRef}
+                selectable={config.features?.selection?.enabled === true}
+                totalRows={data.length}
+                rowKey={config.rowKey}
               />
               <GridBody
                 data={data}
                 columns={config.columns}
-                getRowId={(row, index) => (row as { id?: string | number }).id ?? index}
+                getRowId={(row, index) => (row[config.rowKey ?? ('id' as keyof T)] as string | number) ?? index}
                 enableVirtualScroll={config.features?.virtualization?.enabled}
                 containerHeight={config.features?.virtualization?.containerHeight}
                 rowHeight={
@@ -142,6 +149,8 @@ export function GridContainer<T extends RowData = RowData>(props: GridContainerP
                     : undefined
                 }
                 onScroll={handleScroll}
+                selectable={config.features?.selection?.enabled === true}
+                rowKey={config.rowKey}
               />
             </div>
             <GridPagination config={config} />

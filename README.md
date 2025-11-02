@@ -20,12 +20,13 @@ CROW is a demonstration of a versatile data grid component that can be configure
 - 📊 **Data Agnostic**: Works with any JSON data source (API, mock, local)
 - 🚀 **Smart Rendering**: Only ~20 visible rows rendered at any time
 - 🎯 **Synchronized Scrolling**: Headers scroll perfectly with body content
--  **Export Capability**: CSV and Excel export with no external dependencies
+- ✅ **Row Selection**: Multi-select with checkboxes, shift-click ranges, export selected
+- 📤 **Export Capability**: CSV and Excel export with no external dependencies
+- 🔍 **Advanced Filtering**: Type-aware filters (text, select, number, date) with debouncing
 - 🎭 **Smooth Animations**: GPU-accelerated transforms for optimal performance
 - 📝 **TypeScript First**: Full type safety and IntelliSense support
 - ♿ **Accessible**: WCAG compliant with keyboard navigation
 - 🎨 **Themeable**: Custom color palettes and styled scrollbars
-- 🔍 **Advanced Filtering**: Type-aware filters (text, select, number, date) with debouncing
 
 ## Tech Stack
 
@@ -158,7 +159,7 @@ function MyApp() {
 
 ## Development Status
 
-**Phase 5 COMPLETE** ✅ - Column Filtering with Polish + **Export Functionality** 🎉
+**Phase 5 COMPLETE** ✅ - Filtering + Export + **Row Selection** 🎉
 
 **Completed Phases:**
 - ✅ Phase 0: Project setup & tooling
@@ -166,14 +167,16 @@ function MyApp() {
 - ✅ Phase 2: Mock data & DataProvider architecture
 - ✅ Phase 3: Core grid (sorting, pagination)
 - ✅ Phase 4: Virtual scrolling (10K rows, 60fps performance)
-- ✅ Phase 5: Column filtering with polish + CSV/Excel export
+- ✅ Phase 5: Column filtering with polish + CSV/Excel export + Row selection
 
 **Current Status:**
-- 141 tests passing (121 grid + 20 export tests)
+- 146 tests passing (121 grid + 20 export + 5 alignment tests)
 - Virtual scrolling demo with 10,000 employee records
 - Type-aware column filters (text, select, number, date)
 - Filter badges and Clear All button
+- **Row selection** with checkboxes, multi-select, shift-click ranges
 - **CSV and Excel export** (no external dependencies)
+- **Export selected rows** or all data
 - Smooth 60fps scrolling with GPU acceleration
 - Synchronized horizontal scroll between headers and body
 - Custom themed scrollbars matching brand palette
@@ -183,7 +186,9 @@ function MyApp() {
 Run `npm run dev` and visit http://localhost:5173 to see the virtual scrolling demo featuring:
 - 10,000 rows with instant rendering
 - 14 sortable and filterable columns with formatted data
-- Export buttons for CSV and Excel formats
+- Row selection with checkboxes (select all, shift-click ranges)
+- Selection counter and clear button
+- Export buttons for CSV and Excel (selected or all rows)
 - Horizontal and vertical scrolling
 - Real-time performance metrics display
 - Earthy warm color palette (chamoisee, van-dyke, champagne, bistre, beaver)

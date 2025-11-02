@@ -8,6 +8,7 @@ import { useGridContext } from './GridContext';
 import type { ColumnDefinition } from '../../types/config.types';
 import type { RowData } from '../../types/grid.types';
 import { ColumnFilter } from './ColumnFilter';
+import { SelectionColumn } from './SelectionColumn';
 import styles from './GridHeader.module.css';
 
 export interface GridHeaderProps<T extends RowData = RowData> {
@@ -19,6 +20,12 @@ export interface GridHeaderProps<T extends RowData = RowData> {
   headerRef?: RefObject<HTMLDivElement | null>;
   /** Enable filtering */
   filterable?: boolean;
+  /** Enable row selection */
+  selectable?: boolean;
+  /** Total number of rows (for Select All) */
+  totalRows?: number;
+  /** Row key field */
+  rowKey?: keyof T;
 }
 
 /**
@@ -29,6 +36,9 @@ export function GridHeader<T extends RowData = RowData>({
   sortable = true,
   headerRef,
   filterable = false,
+  selectable = false,
+  totalRows = 0,
+  rowKey = 'id' as keyof T,
 }: GridHeaderProps<T>) {
   const { state, dispatch } = useGridContext<T>();
 
@@ -79,21 +89,19 @@ export function GridHeader<T extends RowData = RowData>({
     return state.filters.some((f) => f.columnKey === columnKey);
   };
 
-  /**
-   * Clear all filters
-   */
-  const handleClearAllFilters = () => {
-    dispatch({ type: 'CLEAR_FILTERS' });
-  };
-
-  // Count active filters
-  const activeFilterCount = state.filters.length;
-
   return (
     <div className={styles.gridHeaderWrapper}>
       <div className={styles.scrollableHeader} ref={headerRef}>
         <div className={styles.gridHeaderContent}>
           <div className={styles.gridHeader} role="row">
+            {/* Selection column header */}
+            {selectable && (
+              <SelectionColumn<T>
+                totalRows={totalRows}
+                rowKey={rowKey}
+              />
+            )}
+            
             {columns.map((column) => {
               const columnKey = String(column.key);
               const isSortable = sortable && (column.sortable ?? true);
@@ -125,6 +133,11 @@ export function GridHeader<T extends RowData = RowData>({
           {/* Filter row */}
           {filterable && (
             <div className={styles.filterRow} role="row">
+              {/* Empty cell for selection column */}
+              {selectable && (
+                <div className={styles.emptyFilterCell} style={{ minWidth: '48px', maxWidth: '48px' }} />
+              )}
+              
               {columns.map((column) => {
                 const isFilterable = column.filterable ?? false;
 
@@ -141,20 +154,6 @@ export function GridHeader<T extends RowData = RowData>({
           )}
         </div>
       </div>
-      
-      {/* Clear All Filters button row - below filter row, outside scroll */}
-      {filterable && activeFilterCount > 0 && (
-        <div className={styles.clearAllRow}>
-          <button
-            className={styles.clearAllFilters}
-            onClick={handleClearAllFilters}
-            title={`Clear ${activeFilterCount} filter${activeFilterCount > 1 ? 's' : ''}`}
-            type="button"
-          >
-            ✕ Clear All Filters
-          </button>
-        </div>
-      )}
     </div>
   );
 }

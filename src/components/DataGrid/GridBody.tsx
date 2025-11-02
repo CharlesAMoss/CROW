@@ -25,6 +25,10 @@ export interface GridBodyProps<T extends RowData = RowData> {
   rowHeight?: number;
   /** Callback for horizontal scroll sync */
   onScroll?: (scrollLeft: number) => void;
+  /** Enable row selection */
+  selectable?: boolean;
+  /** Row key field */
+  rowKey?: keyof T;
 }
 
 /**
@@ -38,6 +42,8 @@ export function GridBody<T extends RowData = RowData>({
   containerHeight = 600,
   rowHeight = 40,
   onScroll,
+  selectable = false,
+  rowKey = 'id' as keyof T,
 }: GridBodyProps<T>) {
   const bodyRef = useRef<HTMLDivElement>(null);
 
@@ -75,6 +81,8 @@ export function GridBody<T extends RowData = RowData>({
           containerHeight={containerHeight}
           rowHeight={rowHeight}
           onHorizontalScroll={onScroll}
+          selectable={selectable}
+          rowKey={rowKey}
         />
       </div>
     );
@@ -89,6 +97,8 @@ export function GridBody<T extends RowData = RowData>({
           row={row}
           rowIndex={index}
           columns={columns}
+          selectable={selectable}
+          rowKey={rowKey}
         />
       ))}
     </div>
