@@ -140,6 +140,7 @@ export function GridContainer<T extends RowData = RowData>(props: GridContainerP
               <GridBody
                 data={data}
                 columns={config.columns}
+                displayMode={config.displayMode}
                 getRowId={(row, index) => (row[config.rowKey ?? ('id' as keyof T)] as string | number) ?? index}
                 enableVirtualScroll={config.features?.virtualization?.enabled}
                 containerHeight={config.features?.virtualization?.containerHeight}

@@ -17,3 +17,31 @@
   color: var(--grid-empty-color, #999);
   font-style: italic;
 }
+
+/* Gallery mode (fullbleed) - CSS Grid layout with no gaps */
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 0; /* Fullbleed - no gaps between images */
+  overflow-y: auto;
+  max-height: 600px; /* Default height, can be overridden */
+}
+
+/* Responsive breakpoints for gallery */
+@media (max-width: 1024px) {
+  .galleryGrid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .galleryGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .galleryGrid {
+    grid-template-columns: repeat(2, 1fr); /* Always 2 columns on mobile */
+  }
+}

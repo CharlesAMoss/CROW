@@ -69,18 +69,22 @@ npm run test
 ```
 src/
 ├── components/
-│   ├── DataGrid/          # Core grid components (17 files)
+│   ├── DataGrid/          # Core grid components (19 files)
 │   │   ├── GridContainer.tsx      # Main orchestrator
 │   │   ├── GridContext.tsx        # State management
 │   │   ├── GridHeader.tsx         # Sortable column headers
-│   │   ├── GridBody.tsx           # Row container with virtualization
+│   │   ├── GridBody.tsx           # Row container with virtualization + gallery mode
 │   │   ├── VirtualScroller.tsx    # Virtual scrolling engine
 │   │   ├── GridRow.tsx            # Individual row rendering
 │   │   ├── GridCell.tsx           # Cell with formatters
+│   │   ├── ImageCell.tsx          # Gallery mode image cell
+│   │   ├── ImageModal.tsx         # Full-screen image viewer
+│   │   ├── ColumnFilter.tsx       # Type-aware column filters
 │   │   └── GridPagination.tsx     # Pagination controls
 │   ├── features/          # Feature modules (planned)
 │   └── demo/              # Demo pages
-│       └── VirtualScrollDemo.tsx  # 10K row demo
+│       ├── VirtualScrollDemo.tsx  # 10K row demo
+│       └── GalleryDemo.tsx        # Fullbleed gallery mode demo
 ├── types/                 # TypeScript definitions (75+ exports)
 │   ├── grid.types.ts      # Core grid types
 │   ├── config.types.ts    # Configuration interfaces
@@ -93,10 +97,12 @@ src/
 │   ├── useVirtualScroll.ts # Virtualization logic
 │   └── useDataFetching.ts # Reactive data fetching
 ├── utils/                 # Helper functions
-│   └── dataTransforms.ts  # Sort, filter, paginate
+│   ├── dataTransforms.ts  # Sort, filter, paginate
+│   └── exportUtils.ts     # CSV & Excel export
 └── data/                  # Mock datasets
     ├── mockLargeDataset.ts # 1K-100K row generator
-    └── mockSpreadsheet.ts  # Employee demo data
+    ├── mockSpreadsheet.ts  # Employee demo data
+    └── mockImages.ts       # Gallery mode image data (25 images)
 ```
 
 ## Documentation
@@ -159,7 +165,7 @@ function MyApp() {
 
 ## Development Status
 
-**Phase 5 COMPLETE** ✅ - Filtering + Export + **Row Selection** 🎉
+**Phase 7 COMPLETE** ✅ - Gallery Mode 🎉
 
 **Completed Phases:**
 - ✅ Phase 0: Project setup & tooling
@@ -167,31 +173,40 @@ function MyApp() {
 - ✅ Phase 2: Mock data & DataProvider architecture
 - ✅ Phase 3: Core grid (sorting, pagination)
 - ✅ Phase 4: Virtual scrolling (10K rows, 60fps performance)
-- ✅ Phase 5: Column filtering with polish + CSV/Excel export + Row selection
+- ✅ Phase 5: Column filtering + CSV/Excel export + Row selection
+- ✅ Phase 7: Fullbleed gallery mode with image modal viewer
 
 **Current Status:**
-- 146 tests passing (121 grid + 20 export + 5 alignment tests)
+- 167 tests passing (146 grid + 21 gallery tests)
 - Virtual scrolling demo with 10,000 employee records
+- **Fullbleed gallery mode** with CSS Grid responsive layout
+- **ImageCell** with lazy loading, error handling, and loading states
+- **ImageModal** full-screen viewer with metadata panel
+- Enhanced image URL detection (Unsplash, Pexels, file extensions)
 - Type-aware column filters (text, select, number, date)
-- Filter badges and Clear All button
-- **Row selection** with checkboxes, multi-select, shift-click ranges
-- **CSV and Excel export** (no external dependencies)
-- **Export selected rows** or all data
+- Row selection with checkboxes, multi-select, shift-click ranges
+- CSV and Excel export (no external dependencies)
+- Export selected rows or all data
 - Smooth 60fps scrolling with GPU acceleration
 - Synchronized horizontal scroll between headers and body
 - Custom themed scrollbars matching brand palette
 - Only ~20 rows rendered at any time (memory efficient)
 
-**Live Demo**: 
-Run `npm run dev` and visit http://localhost:5173 to see the virtual scrolling demo featuring:
-- 10,000 rows with instant rendering
-- 14 sortable and filterable columns with formatted data
-- Row selection with checkboxes (select all, shift-click ranges)
-- Selection counter and clear button
-- Export buttons for CSV and Excel (selected or all rows)
-- Horizontal and vertical scrolling
-- Real-time performance metrics display
-- Earthy warm color palette (chamoisee, van-dyke, champagne, bistre, beaver)
+**Live Demos**: 
+Run `npm run dev` and visit http://localhost:5173 to see:
+- **Gallery Mode**: 25 professional images in responsive fullbleed layout
+  - Click images to open full-screen modal viewer
+  - View metadata (photographer, description, tags, date)
+  - Keyboard navigation (Tab, Enter, Escape)
+  - Progressive image loading with spinners
+- **Virtual Scrolling**: 10,000 rows with instant rendering
+  - 14 sortable and filterable columns with formatted data
+  - Row selection with checkboxes (select all, shift-click ranges)
+  - Selection counter and clear button
+  - Export buttons for CSV and Excel (selected or all rows)
+  - Horizontal and vertical scrolling
+  - Real-time performance metrics display
+  - Earthy warm color palette (chamoisee, van-dyke, champagne, bistre, beaver)
 
 See [PLANNING.md](./PLANNING.md) for detailed roadmap and [PHASE_5_COMPLETE.md](./PHASE_5_COMPLETE.md) for Phase 5 details.
 

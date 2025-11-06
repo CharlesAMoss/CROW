@@ -1,8 +1,45 @@
-import { VirtualScrollDemo } from './components/demo/VirtualScrollDemo'
-import './App.css'  
+import { useState } from 'react';
+import { VirtualScrollDemo } from './components/demo/VirtualScrollDemo';
+import { GalleryDemo } from './components/demo/GalleryDemo';
+import './App.css';
 
 function App() {
-  return <VirtualScrollDemo />
+  const [activeDemo, setActiveDemo] = useState<'virtual' | 'gallery'>('gallery');
+
+  return (
+    <div>
+      <nav style={{ padding: '1rem', borderBottom: '2px solid #ddd', background: '#f5f5f5' }}>
+        <button
+          onClick={() => setActiveDemo('gallery')}
+          style={{
+            padding: '0.5rem 1rem',
+            marginRight: '1rem',
+            background: activeDemo === 'gallery' ? '#a97751' : '#fff',
+            color: activeDemo === 'gallery' ? '#fff' : '#333',
+            border: '1px solid #ddd',
+            borderRadius: '4px',
+            cursor: 'pointer',
+          }}
+        >
+          Gallery Mode
+        </button>
+        <button
+          onClick={() => setActiveDemo('virtual')}
+          style={{
+            padding: '0.5rem 1rem',
+            background: activeDemo === 'virtual' ? '#a97751' : '#fff',
+            color: activeDemo === 'virtual' ? '#fff' : '#333',
+            border: '1px solid #ddd',
+            borderRadius: '4px',
+            cursor: 'pointer',
+          }}
+        >
+          Virtual Scroll Demo
+        </button>
+      </nav>
+      {activeDemo === 'gallery' ? <GalleryDemo /> : <VirtualScrollDemo />}
+    </div>
+  );
 }
 
-export default App
+export default App;

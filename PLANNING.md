@@ -339,59 +339,259 @@ describe('Spreadsheet Mode', () => {
 
 ---
 
-## Phase 6: Display Modes - Fullbleed Gallery
+## Phase 6: Advanced Search & Data Analysis
 **Status**: NOT STARTED  
-**Duration**: ~2 days  
-**Dependencies**: Phase 5
+**Duration**: ~3-4 days  
+**Dependencies**: Phase 5 (Filtering + Export + Row Selection)
 
 ### Objectives
-- Implement fullbleed gallery mode
-- Create modal system for image details
-- Add smooth image loading
+- Add SQL-like search bar for power users
+- Implement query parser and executor
+- Add basic data analysis features (aggregates, column stats)
+- Natural language query support (optional)
 
 ### Deliverables
-- `src/components/features/Modal/ModalOverlay.tsx`
-- `src/components/features/Modal/ImageModal.tsx`
-- Fullbleed mode CSS (CSS Grid)
-- Image loading states
+#### Search Components
+- `src/components/DataGrid/SearchBar.tsx` - Main search input with autocomplete
+- `src/components/DataGrid/SearchBar.module.css` - Styling
+- `src/components/DataGrid/SearchBar.test.tsx` - Component tests
+
+#### Query System
+- `src/utils/queryParser.ts` - SQL-like query parser (tokenizer + AST builder)
+- `src/utils/queryParser.test.ts` - Parser tests (15+ tests)
+- `src/utils/queryExecutor.ts` - Execute parsed queries against data
+- `src/utils/queryExecutor.test.ts` - Executor tests (10+ tests)
+- `src/types/query.types.ts` - Query AST type definitions
+
+#### Data Analysis (Optional Phase 6.5)
+- `src/utils/dataAnalysis.ts` - Column stats, aggregates, groupBy functions
+- `src/utils/dataAnalysis.test.ts` - Analysis tests
+- `src/components/DataGrid/GridFooter.tsx` - Aggregate footer row
+- `src/components/DataGrid/ColumnStatsPopover.tsx` - Column-level statistics
+
+### Search Bar Features
+**Supported SQL-like operators:**
+- Comparison: `=`, `!=`, `>`, `<`, `>=`, `<=`
+- String: `LIKE`, `NOT LIKE`, `CONTAINS`, `NOT CONTAINS`, `STARTS WITH`, `ENDS WITH`
+- List: `IN`, `NOT IN`
+- Range: `BETWEEN`
+- Null: `IS NULL`, `IS NOT NULL`
+- Logical: `AND`, `OR`, parentheses for grouping
+
+**Example queries:**
+```sql
+salary > 80000 AND department = Engineering
+name LIKE "%Smith%" OR email CONTAINS "gmail"
+hireDate BETWEEN 2020-01-01 AND 2023-12-31
+status IN (active, pending) AND projects >= 5
+(department = Sales OR department = Marketing) AND salary > 60000
+```
+
+**Natural language conversion (optional):**
+```
+"engineers making over 80k" → "department = Engineering AND salary > 80000"
+"active users in California" → "status = active AND location = California"
+"hired after 2020" → "hireDate > 2020-01-01"
+```
+
+### Analysis Features (Phase 6.5)
+**Column statistics:**
+- Count, unique values, null count
+- Numeric: sum, mean, median, min, max, std deviation
+- String: most common value, distribution
+- Date: earliest, latest, span
+
+**Aggregate footer row:**
+- Display totals/averages at bottom of grid
+- Config: `aggregates: { salary: ['sum', 'avg', 'max'], count: ['sum'] }`
+- Updates with filtering/search
+
+**GridControls stats panel:**
+- Show filtered row count, selected row count
+- Display key aggregates for current view
+- Toggle visibility
 
 ### Tasks
-1. Create CSS Grid layout for gallery
-2. Implement cell click handlers
-3. Build modal overlay component
-4. Add modal state to GridContext
-5. Create image detail modal
-6. Add loading skeleton for images
-7. Handle image errors gracefully
+1. **Query Parser** (1 day)
+   - Tokenizer for SQL-like syntax
+   - AST builder (conditions, groups, operators)
+   - Validation and error messages
+   - 15+ parser tests
+
+2. **Query Executor** (0.5 days)
+   - Evaluate parsed queries against RowData
+   - Handle all operator types
+   - Support for AND/OR grouping
+   - 10+ executor tests
+
+3. **SearchBar Component** (1 day)
+   - Input with syntax highlighting
+   - Autocomplete for columns/operators
+   - Real-time validation
+   - Error display
+   - Integration with GridControls
+
+4. **Natural Language Support** (0.5 days - optional)
+   - Pattern matching for common phrases
+   - Conversion to SQL-like syntax
+   - Fallback to full-text search
+
+5. **Data Analysis Utils** (1 day - optional Phase 6.5)
+   - `analyzeColumn()` function
+   - `aggregate()` function
+   - `groupBy()` function
+   - 20+ analysis tests
+
+6. **GridFooter Component** (0.5 days - optional)
+   - Sticky footer row
+   - Display aggregates per column
+   - Formatting with column formatters
+
+### Integration Points
+- Add `searchQuery` field to GridState
+- Add `SET_SEARCH_QUERY` action to GridAction union
+- Update GridDataFetcher to apply search queries
+- Integrate SearchBar into GridControls
+- Update GridContainer to pass search config
 
 ### Testing Criteria
-- Images display in square grid
-- No borders/gaps between images
-- Click opens modal with row data
-- Modal closes on backdrop click
-- Images load progressively
+**Search Functionality:**
+- Simple conditions parse correctly (`salary > 80000`)
+- Compound queries work (`A AND B OR C`)
+- Parentheses group correctly `(A OR B) AND C`
+- All operators work (LIKE, CONTAINS, IN, BETWEEN, IS NULL)
+- Invalid syntax shows clear error messages
+- Autocomplete suggests columns, operators, logical connectors
+- Search integrates with existing filters
+- Performance: 10K rows filter in <100ms
+
+**Analysis Functionality (if Phase 6.5):**
+- Column stats calculate correctly
+- Aggregates update with filtering
+- Footer row displays properly
+- Stats integrate with virtual scrolling
 
 ### Component Tests
 ```typescript
-describe('Fullbleed Gallery Mode', () => {
-  test('renders images in grid');
-  test('opens modal on click');
-  test('closes modal');
-  test('displays row data in modal');
+describe('QueryParser', () => {
+  test('parses simple comparison: salary > 80000');
+  test('parses LIKE operator: name LIKE "%Smith%"');
+  test('parses IN operator: status IN (active, pending)');
+  test('parses BETWEEN: hireDate BETWEEN 2020-01-01 AND 2023-12-31');
+  test('parses AND/OR: A AND B OR C');
+  test('parses parentheses: (A OR B) AND C');
+  test('handles invalid syntax gracefully');
+  test('converts natural language to SQL');
+});
+
+describe('QueryExecutor', () => {
+  test('executes comparison operators');
+  test('executes LIKE with wildcards');
+  test('executes CONTAINS case-insensitive');
+  test('executes IN with array');
+  test('executes BETWEEN range');
+  test('executes AND logic');
+  test('executes OR logic');
+  test('handles NULL checks');
+});
+
+describe('SearchBar', () => {
+  test('renders input field');
+  test('shows autocomplete suggestions');
+  test('dispatches SET_SEARCH_QUERY on change');
+  test('displays error for invalid query');
+  test('clears query on clear button click');
+});
+
+describe('DataAnalysis', () => {
+  test('calculates numeric column stats');
+  test('calculates string distribution');
+  test('calculates date range');
+  test('aggregates sum/avg/min/max');
+  test('groups by column with aggregates');
 });
 ```
 
 ### Checkpoint Questions
-1. Is the gallery layout responsive?
-2. Are image loading states smooth?
-3. Should we add image zoom/lightbox features?
+1. Should natural language support be included or deferred?
+2. Is SQL-like syntax appropriate for target users?
+3. Should we add query history/saved queries?
+4. Should data analysis be part of Phase 6 or separate Phase 6.5?
+5. Do we need visual query builder UI alongside text input?
+
+**Phase 6.5 Option**: Split into two phases
+- Phase 6: Search bar only
+- Phase 6.5: Data analysis features (aggregates, stats)
 
 ---
 
-## Phase 7: Display Modes - Workflow/Planning
+## Phase 7: Display Modes - Fullbleed Gallery ✅
+**Status**: COMPLETED  
+**Duration**: 2 days  
+**Completion Date**: November 5, 2025  
+**Dependencies**: Phase 6
+
+### Objectives
+- [x] Implement fullbleed gallery mode
+- [x] Create modal system for image details
+- [x] Add smooth image loading
+
+### Deliverables
+- [x] `src/components/DataGrid/ImageCell.tsx` (109 lines, 9 tests)
+- [x] `src/components/DataGrid/ImageModal.tsx` (118 lines, 12 tests)
+- [x] Fullbleed mode CSS (CSS Grid) in GridBody.module.css
+- [x] Image loading states with spinner
+- [x] `src/components/demo/GalleryDemo.tsx` (237 lines)
+- [x] Enhanced image column detection (file extensions + hosting patterns)
+- [x] Professional demo page with VS Code-style code examples
+
+### Tasks
+1. [x] Create CSS Grid layout for gallery
+2. [x] Implement cell click handlers
+3. [x] Build modal overlay component
+4. [x] Add modal state to GridContext (already existed)
+5. [x] Create image detail modal
+6. [x] Add loading skeleton for images
+7. [x] Handle image errors gracefully
+8. [x] Enhanced image URL detection (Unsplash, Pexels, etc.)
+9. [x] Professional demo page styling
+10. [x] VS Code Dark+ theme code examples
+11. [x] Two-column layout (code + explanation)
+
+### Testing Criteria
+- [x] Images display in square grid ✅
+- [x] No borders/gaps between images ✅
+- [x] Click opens modal with row data ✅
+- [x] Modal closes on backdrop click ✅
+- [x] Images load progressively ✅
+- [x] 167 tests passing (21 new gallery tests)
+
+### Test Results
+```
+✅ ImageCell tests (9 tests): Loading states, error handling, click/keyboard, accessibility
+✅ ImageModal tests (12 tests): Open/close, metadata display, keyboard navigation, body scroll lock
+✅ All tests passing: 167/167
+Build: ✅ Passed (648ms)
+```
+
+### Features Implemented
+- **ImageCell**: Lazy loading, aspect ratio support, loading spinner, error states
+- **ImageModal**: Full-screen viewer, metadata panel, Escape key, click outside to close
+- **Gallery Layout**: CSS Grid with `grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))`
+- **Accessibility**: ARIA labels, keyboard navigation, focus management
+- **Demo Page**: Professional styling with VS Code theme, compact feature grid, balanced two-column layout
+
+### Checkpoint Questions
+1. ✅ Is the gallery layout responsive? YES - auto-fills columns based on available space
+2. ✅ Are image loading states smooth? YES - progressive loading with spinner
+3. ✅ Should we add image zoom/lightbox features? IMPLEMENTED - full modal viewer with metadata
+
+---
+
+## Phase 8: Display Modes - Workflow/Planning
 **Status**: NOT STARTED  
 **Duration**: ~3 days  
-**Dependencies**: Phase 6
+**Dependencies**: Phase 7
 
 ### Objectives
 - Implement inline editing
@@ -487,30 +687,46 @@ describe('Nested List Mode', () => {
 
 ---
 
-## Phase 9: Filtering & Search
+## Phase 9: Cell Editing & Inline Validation
 **Status**: NOT STARTED  
 **Duration**: ~2 days  
 **Dependencies**: Phase 8
 
 ### Objectives
-- Add global search functionality
-- Add per-column filters
-- Implement filter UI
+- Add inline cell editing
+- Implement validation rules
+- Add save/cancel workflow
 
 ### Deliverables
-- `src/components/features/Filtering/SearchBar.tsx`
-- `src/components/features/Filtering/FilterPanel.tsx`
-- `src/hooks/useFilter.ts` - Filter logic
-- Filter UI components
+- Enhanced EditCell components
+- Validation system
+- Error display components
 
 ### Tasks
-1. Add filter state to GridContext
-2. Create search bar component
-3. Implement global search logic
-4. Create column filter components
-5. Add filter icon to headers
-6. Implement filter panel
-7. Add debouncing to search input
+1. Add validation rules to column config
+2. Implement validation on edit
+3. Add error state display
+4. Create validation feedback UI
+5. Handle async validation
+6. Add keyboard shortcuts (Enter to save, Esc to cancel)
+
+### Testing Criteria
+- Validation triggers on edit
+- Error messages display clearly
+- Invalid edits can't be saved
+- Valid edits save successfully
+
+### Checkpoint Questions
+1. Should validation be synchronous or async?
+2. Do we need field-level vs row-level validation?
+3. Should we support custom validators?
+
+---
+
+## Phase 11: Advanced Features & Polish
+**Status**: NOT STARTED  
+**Duration**: ~3 days  
+**Dependencies**: Phase 10
 
 ### Testing Criteria
 - Search filters rows in real-time
@@ -868,8 +1084,23 @@ The project is successful when:
 
 ## Current Status Summary
 
-**Overall Progress**: 13% (Phase 0 & 1 complete, Phase 2 ready)  
-**Last Updated**: October 24, 2025
+**Overall Progress**: 33% (Phases 0-5 complete)  
+**Last Updated**: November 2, 2025
+
+**Phase 5 Complete Features:**
+- ✅ Column filtering (text, select, number, date)
+- ✅ CSV & Excel export (no dependencies)
+- ✅ Row selection with multi-select
+- ✅ Unified GridControls component
+- ✅ 146 tests passing
+
+**Phase 7 Complete Features:**
+- ✅ Fullbleed gallery mode with CSS Grid
+- ✅ ImageCell with loading states and error handling
+- ✅ ImageModal with full-screen viewer
+- ✅ Enhanced image URL detection (Unsplash, Pexels)
+- ✅ Professional demo page with VS Code styling
+- ✅ 167 tests passing (21 new gallery tests)
 
 **Confirmed Requirements:**
 - ✅ Virtualization + minimal pagination (datasets typically <1000 rows)
@@ -884,23 +1115,20 @@ The project is successful when:
 |-------|--------|------------|
 | Phase 0: Project Setup | ✅ Complete | 100% |
 | Phase 1: Type System | ✅ Complete | 100% |
-| Phase 2: Mock Data | ⏳ Ready to Start | 0% |
-| Phase 3: Core Grid | ⚪ Not Started | 0% |
-| Phase 4: Virtual Scrolling | ⚪ Not Started | 0% |
-| Phase 5: Spreadsheet Mode | ⚪ Not Started | 0% |
-| Phase 6: Gallery Mode | ⚪ Not Started | 0% |
-| Phase 7: Workflow Mode | ⚪ Not Started | 0% |
-| Phase 8: Nested Lists | ⚪ Not Started | 0% |
-| Phase 9: Filtering | ⚪ Not Started | 0% |
-| Phase 10: Pagination | ⚪ Not Started | 0% |
-| Phase 11: Export | ⚪ Not Started | 0% |
-| Phase 12: Polish | ⚪ Not Started | 0% |
+| Phase 2: Mock Data | ✅ Complete | 100% |
+| Phase 3: Core Grid | ✅ Complete | 100% |
+| Phase 4: Virtual Scrolling | ✅ Complete | 100% |
+| Phase 5: Filtering + Export + Selection | ✅ Complete | 100% |
+| Phase 6: Advanced Search & Analysis | ⚪ Not Started | 0% |
+| Phase 7: Gallery Mode | ✅ Complete | 100% |
+| Phase 8: Workflow Mode | ⚪ Not Started | 0% |
+| Phase 9: Nested Lists | ⚪ Not Started | 0% |
+| Phase 10: Cell Editing | ⚪ Not Started | 0% |
+| Phase 11: Advanced Features | ⚪ Not Started | 0% |
+| Phase 12: Animations & Polish | ⚪ Not Started | 0% |
 | Phase 13: Demo Site | ⚪ Not Started | 0% |
 | Phase 14: Testing | ⚪ Not Started | 0% |
 | Phase 15: Release | ⚪ Not Started | 0% |
-| Phase 12: Demo Site | ⚪ Not Started | 0% |
-| Phase 13: Testing | ⚪ Not Started | 0% |
-| Phase 14: Release | ⚪ Not Started | 0% |
 
 ---
 
@@ -908,10 +1136,14 @@ The project is successful when:
 
 1. ✅ **Complete Phase 0**: Install dependencies and set up testing - DONE
 2. ✅ **Complete Phase 1**: Type system implementation - DONE
-3. ⏳ **Start Phase 2**: Mock data and data provider implementation
+3. ✅ **Complete Phase 2**: Mock data and data provider - DONE
+4. ✅ **Complete Phase 3**: Core grid components - DONE
+5. ✅ **Complete Phase 4**: Virtual scrolling - DONE
+6. ✅ **Complete Phase 5**: Filtering, export, row selection - DONE
+7. ⏳ **Next: Phase 6**: Advanced search with SQL-like queries + data analysis
 
-**Ready to proceed to Phase 2!**
+**Ready for Phase 6: Advanced Search & Data Analysis**
 
 ---
 
-Last Updated: October 24, 2025
+Last Updated: November 2, 2025
