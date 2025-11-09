@@ -8,6 +8,7 @@
 export type {
   CellValue,
   RowData,
+  TreeNode,
   DisplayMode,
   GridState,
   SortState,

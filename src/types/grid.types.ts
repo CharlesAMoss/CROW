@@ -15,6 +15,25 @@ export type CellValue = string | number | boolean | Date | null | undefined;
 export type RowData = Record<string, CellValue>;
 
 /**
+ * Tree node for hierarchical/nested data
+ * Allows additional properties beyond RowData constraints
+ */
+export interface TreeNode {
+  /** Unique identifier */
+  id: string | number;
+  /** Parent node ID (undefined for root nodes) */
+  parentId?: string | number;
+  /** Child nodes */
+  children?: TreeNode[];
+  /** Nesting level (0 for root, 1 for children, etc.) */
+  level?: number;
+  /** Whether this node has children (convenience property) */
+  hasChildren?: boolean;
+  /** Additional row data properties */
+  [key: string]: CellValue | TreeNode[] | undefined;
+}
+
+/**
  * Display modes available for the grid
  * - fullbleed: Borderless gallery view for images
  * - spreadsheet: Excel-like table with sorting and filtering
@@ -133,7 +152,7 @@ export type GridAction =
   | { type: 'REMOVE_FILTER'; payload: string }
   | { type: 'CLEAR_FILTERS' }
   | { type: 'TOGGLE_EXPAND'; payload: string | number }
-  | { type: 'EXPAND_ALL' }
+  | { type: 'EXPAND_ALL'; payload?: (string | number)[] }
   | { type: 'COLLAPSE_ALL' }
   | { type: 'TOGGLE_SELECT'; payload: string | number }
   | { type: 'SELECT_ALL' }

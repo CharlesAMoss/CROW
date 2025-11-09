@@ -15,6 +15,7 @@ export { GridControls } from './GridControls';
 export { GridProvider, useGridContext } from './GridContext';
 export { ImageCell } from './ImageCell';
 export { ImageModal } from './ImageModal';
+export { ExpandToggle } from './ExpandToggle';
 
 export type { GridContextValue, GridProviderProps } from './GridContext';
 export type { GridHeaderProps } from './GridHeader';
@@ -26,3 +27,4 @@ export type { SelectionColumnProps } from './SelectionColumn';
 export type { GridControlsProps } from './GridControls';
 export type { ImageCellProps } from './ImageCell';
 export type { ImageModalProps } from './ImageModal';
+export type { ExpandToggleProps } from './ExpandToggle';

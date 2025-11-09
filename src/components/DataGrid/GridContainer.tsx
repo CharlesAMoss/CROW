@@ -43,6 +43,8 @@ interface ControlledProps<T extends RowData = RowData> extends BaseGridProps<T> 
 interface UncontrolledProps<T extends RowData = RowData> extends BaseGridProps<T> {
   /** Initial data (optional, will fetch from provider if not provided) */
   initialData?: T[];
+  /** Initial grid state (optional, for setting expanded nodes, etc.) */
+  initialState?: Partial<import('../../types/grid.types').GridState>;
 }
 
 /**
@@ -105,6 +107,7 @@ export function GridContainer<T extends RowData = RowData>(props: GridContainerP
           isLoading: loading,
           error: error,
           pageSize: config.features?.pagination?.pageSize ?? 50,
+          ...(('initialState' in props && props.initialState) || {}),
         }}
       >
         {/* Data fetcher for uncontrolled mode */}

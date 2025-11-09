@@ -84,8 +84,10 @@ export function gridReducer(state: GridState, action: GridAction): GridState {
     }
 
     case 'EXPAND_ALL':
-      // Will need row IDs passed in - placeholder for now
-      return state;
+      return {
+        ...state,
+        expanded: action.payload ? new Set(action.payload) : new Set(),
+      };
 
     case 'COLLAPSE_ALL':
       return {

@@ -3,14 +3,15 @@
  * Renders the data rows with optional virtual scrolling
  */
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 import { GridRow } from './GridRow';
 import { VirtualScroller } from './VirtualScroller';
 import { ImageCell } from './ImageCell';
 import { ImageModal } from './ImageModal';
 import { useGridContext } from './GridContext';
+import { flattenTree, filterExpandedNodes } from '../../utils/treeUtils';
 import type { ColumnDefinition } from '../../types/config.types';
-import type { RowData, DisplayMode } from '../../types/grid.types';
+import type { RowData, DisplayMode, TreeNode } from '../../types/grid.types';
 import styles from './GridBody.module.css';
 
 export interface GridBodyProps<T extends RowData = RowData> {
@@ -159,6 +160,58 @@ export function GridBody<T extends RowData = RowData>({
           />
         )}
       </>
+    );
+  }
+
+  // Tree mode (nested-list) - hierarchical data with expand/collapse
+  if (displayMode === 'nested-list') {
+    // Flatten tree and filter by expanded state
+    const treeData = useMemo(() => {
+      const flattened = flattenTree(data as unknown as TreeNode[]);
+      return filterExpandedNodes(flattened, state.expanded);
+    }, [data, state.expanded]);
+
+    // Determine if each node is the last child at its level
+    const isLastChildMap = useMemo(() => {
+      const map = new Map<string | number, boolean>();
+      const nodesByParent = new Map<string | number | undefined, TreeNode[]>();
+      
+      // Group nodes by parent
+      treeData.forEach(node => {
+        const parentId = node.parentId;
+        if (!nodesByParent.has(parentId)) {
+          nodesByParent.set(parentId, []);
+        }
+        nodesByParent.get(parentId)!.push(node);
+      });
+      
+      // Mark last child in each group
+      nodesByParent.forEach(siblings => {
+        siblings.forEach((node, idx) => {
+          map.set(node.id, idx === siblings.length - 1);
+        });
+      });
+      
+      return map;
+    }, [treeData]);
+
+    return (
+      <div className={styles.gridBody} role="treegrid" ref={bodyRef}>
+        {treeData.map((row, index) => (
+          <GridRow
+            key={getRowId(row as unknown as T, index)}
+            row={row as unknown as T}
+            rowIndex={index}
+            columns={columns}
+            selectable={selectable}
+            rowKey={rowKey}
+            level={row.level}
+            hasChildren={row.hasChildren}
+            showExpandToggle={true}
+            isLastChild={isLastChildMap.get(row.id) ?? false}
+          />
+        ))}
+      </div>
     );
   }
 

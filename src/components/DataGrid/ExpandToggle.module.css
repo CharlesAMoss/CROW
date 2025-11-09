@@ -1,0 +1,53 @@
+/**
+ * ExpandToggle Styles
+ */
+
+.toggleButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  margin-right: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--grid-text, #333);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.toggleButton:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.toggleButton:focus {
+  outline: 2px solid var(--grid-primary, #a97751);
+  outline-offset: 1px;
+}
+
+.toggleButton:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.toggleButton:active {
+  transform: scale(0.95);
+}
+
+.icon {
+  display: inline-block;
+  font-size: 10px;
+  line-height: 1;
+  user-select: none;
+  transition: transform 0.15s ease;
+}
+
+.placeholder {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}

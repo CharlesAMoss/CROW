@@ -3,6 +3,8 @@
  * Organization structure with multiple levels
  */
 
+import type { TreeNode } from '../types/grid.types';
+
 export interface NestedItem {
   id: number;
   name: string;
@@ -19,6 +21,7 @@ export interface NestedItem {
 /**
  * Mock nested organizational data
  * 4 levels deep with departments, teams, and employees
+ * Compatible with TreeNode interface
  */
 export const mockNestedData: NestedItem[] = [
   {
@@ -351,3 +354,9 @@ export const mockNestedData: NestedItem[] = [
     ],
   },
 ];
+
+/**
+ * Export as TreeNode array for type compatibility
+ * NestedItem is structurally compatible with TreeNode
+ */
+export const mockTreeData: TreeNode[] = mockNestedData as unknown as TreeNode[];

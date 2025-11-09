@@ -1,0 +1,433 @@
+/**
+ * Nested List Demo Page Styles
+ */
+
+.demoPage {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.header {
+  margin-bottom: 2rem;
+  position: relative;
+  padding: 1.5rem;
+  border-bottom: 2px solid rgba(169, 119, 81, 0.2);
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: var(--grid-primary, #a97751);
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.description {
+  font-size: 1.1rem;
+  color: #e0e0e0;  /* Much lighter for better contrast on dark background */
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 400;
+}
+
+.gridWrapper {
+  margin: 2rem 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+  position: relative;
+  padding: 1rem 0;
+}
+
+/* Hide the header row completely for tree mode */
+.gridWrapper :global(.gridHeaderWrapper) {
+  display: none !important;
+}
+
+.gridWrapper :global(.gridHeader) {
+  display: none !important;
+}
+
+.gridWrapper :global(._gridHeader_116uo_9) {
+  display: none !important;
+}
+
+/* Make grid controls subtle or hidden */
+.gridWrapper :global(.gridControls) {
+  display: none;
+}
+
+/* Remove row borders for tree diagram look */
+.gridWrapper :global(.gridRow) {
+  border: none !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  background: transparent !important;
+  position: relative;
+}
+
+/* Subtle hover effect */
+.gridWrapper :global(.gridRow:hover) {
+  background: rgba(169, 119, 81, 0.08) !important;
+}
+
+/* Style cells for minimal look */
+.gridWrapper :global(.gridCell) {
+  border-right: none !important;
+  padding: 0.75rem 1rem !important;
+  background: transparent !important;
+  position: relative;
+}
+
+/* Remove all the corner connector pseudo-elements */
+.gridWrapper :global(.gridCell:first-child::before),
+.gridWrapper :global(.gridCell:first-child::after) {
+  display: none;
+}
+
+/* ASCII tree connector styling - will be added via content */
+.gridWrapper :global(.expandToggleContainer::before) {
+  content: attr(data-tree-line);
+  position: absolute;
+  left: -20px;
+  color: rgba(169, 119, 81, 0.5);
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Make grid body transparent */
+.gridWrapper :global(.gridBody) {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Make grid container clean */
+.gridWrapper :global(.gridContainer) {
+  background: transparent !important;
+}
+
+.features {
+  margin: 3rem 0;
+  padding: 2.5rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.features h2 {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin: 0 0 2rem 0;
+  font-weight: 600;
+  text-align: center;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.featureItem {
+  padding: 1.5rem;
+  background: #ffffff;
+  border-left: 4px solid var(--grid-primary, #a97751);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+.featureItem:hover {
+  background: #fafbfc;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-left-width: 6px;
+}
+
+.featureItem strong {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.featureItem span {
+  color: #5a6c7d;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.usage {
+  margin: 3rem 0;
+  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.usage h2 {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin: 0 0 1.5rem 0;
+  font-weight: 600;
+}
+
+.usageGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.codeSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.codeSection pre {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.codeSection pre code {
+  flex: 1;
+}
+
+.explanationSection {
+  padding: 1.25rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.explanationSection h3 {
+  font-size: 1.05rem;
+  color: #2c3e50;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  text-align: left;
+}
+
+.explanationSection h3:not(:first-child) {
+  margin-top: 1.25rem;
+}
+
+.explanationSection p {
+  margin: 0 0 0.5rem 0;
+  color: #5a6c7d;
+  line-height: 1.5;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.explanationSection code {
+  background: #f0f1f3;
+  color: #c7254e;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9em;
+}
+
+.usage pre {
+  background: #1e1e1e;
+  padding: 1.25rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 0;
+  font-family: 'Consolas', 'Monaco', 'Menlo', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #d4d4d4;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid #2d2d2d;
+  text-align: left;
+  white-space: pre;
+  tab-size: 2;
+  height: 100%;
+}
+
+.usage code {
+  font-family: inherit;
+  color: inherit;
+  background: none;
+  padding: 0;
+  display: block;
+  height: 100%;
+}
+
+/* VS Code Dark+ syntax highlighting */
+.usage :global(.keyword) {
+  color: #569cd6;
+}
+
+.usage :global(.string) {
+  color: #ce9178;
+}
+
+.usage :global(.number) {
+  color: #b5cea8;
+}
+
+.usage :global(.property) {
+  color: #9cdcfe;
+}
+
+.usage :global(.component) {
+  color: #4ec9b0;
+}
+
+.usage :global(.comment) {
+  color: #6a9955;
+  font-style: italic;
+}
+
+.usage pre::-webkit-scrollbar {
+  height: 10px;
+}
+
+.usage pre::-webkit-scrollbar-track {
+  background: #1e1e1e;
+  border-radius: 4px;
+}
+
+.usage pre::-webkit-scrollbar-thumb {
+  background: #424242;
+  border-radius: 4px;
+}
+
+.usage pre::-webkit-scrollbar-thumb:hover {
+  background: #4e4e4e;
+}
+
+.stats {
+  margin: 3rem 0;
+  padding: 2.5rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 1px solid #d0dae5;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.stats h3 {
+  font-size: 1.6rem;
+  color: #2c3e50;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+  font-weight: 600;
+}
+
+.stats ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.stats li {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid #e0e0e0;
+  background: #ffffff;
+  border-radius: 6px;
+  color: #5a6c7d;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.stats li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  border-color: var(--grid-primary, #a97751);
+}
+
+.stats strong {
+  color: var(--grid-primary, #a97751);
+  font-weight: 600;
+  display: block;
+  font-size: 1.05rem;
+}
+
+.stats li span {
+  color: #5a6c7d;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .demoPage {
+    padding: 1rem;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .features,
+  .usage,
+  .stats {
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .features h2,
+  .usage h2 {
+    font-size: 1.5rem;
+  }
+
+  .featureGrid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .featureItem {
+    padding: 0.75rem;
+  }
+
+  .usageGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .usage pre {
+    font-size: 12px;
+    padding: 1rem;
+    line-height: 1.4;
+  }
+
+  .explanationSection {
+    padding: 0;
+  }
+}

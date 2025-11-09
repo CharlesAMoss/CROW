@@ -7,6 +7,8 @@
   border-bottom: 1px solid var(--grid-border, #dee2e6);
   transition: background-color 0.15s;
   min-width: min-content;
+  align-items: center;
+  min-height: 40px;
 }
 
 .gridRow:hover {
@@ -19,4 +21,27 @@
 
 .gridRow[data-selected="true"] {
   border-left: 3px solid var(--grid-primary, #007bff);
+}
+
+.expandToggleContainer {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 8px;
+  height: 100%;
+}
+
+.treeConnector {
+  font-family: 'Courier New', Consolas, Monaco, monospace;
+  color: var(--grid-text, #333);
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre;
+  margin-right: 6px;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  height: 100%;
+  transform: translateY(0px);
 }

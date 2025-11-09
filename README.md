@@ -8,13 +8,14 @@ CROW is a demonstration of a versatile data grid component that can be configure
 
 - **Fullbleed Gallery Mode**: Borderless image grid with click handlers and modal support
 - **Spreadsheet Mode**: Excel/Sheets-like interface with sortable headers and searchable data
+- **Nested List Mode**: Tree/hierarchical data display with ASCII connectors and expand/collapse
 - **Workflow/Planning Mode**: Editable cells for task management and planning applications  
-- **Nested List Mode**: Hierarchical data display with collapsible sections
 - **Custom Modes**: Fully extensible to support any custom data presentation needs
 
 ## Key Features
 
-- 🎨 **Multiple Display Modes**: Switch between gallery, spreadsheet, workflow, and list views
+- 🎨 **Multiple Display Modes**: Switch between gallery, nested list, spreadsheet, and workflow views
+- 🌲 **Tree Diagrams**: ASCII-style tree connectors (├──, │, └──) for hierarchical data visualization
 - ⚡ **Virtual Scrolling**: Handles 10,000+ rows with smooth 60fps performance
 - 🔧 **Highly Configurable**: Declarative API for customizing every aspect
 - 📊 **Data Agnostic**: Works with any JSON data source (API, mock, local)
@@ -23,9 +24,10 @@ CROW is a demonstration of a versatile data grid component that can be configure
 - ✅ **Row Selection**: Multi-select with checkboxes, shift-click ranges, export selected
 - 📤 **Export Capability**: CSV and Excel export with no external dependencies
 - 🔍 **Advanced Filtering**: Type-aware filters (text, select, number, date) with debouncing
+- 🔄 **Expand/Collapse**: Interactive tree navigation with keyboard support
 - 🎭 **Smooth Animations**: GPU-accelerated transforms for optimal performance
 - 📝 **TypeScript First**: Full type safety and IntelliSense support
-- ♿ **Accessible**: WCAG compliant with keyboard navigation
+- ♿ **Accessible**: WCAG compliant with keyboard navigation and ARIA attributes
 - 🎨 **Themeable**: Custom color palettes and styled scrollbars
 
 ## Tech Stack
