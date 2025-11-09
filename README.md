@@ -6,7 +6,7 @@ A highly flexible, TypeScript-powered data grid system for React that adapts to 
 
 CROW is a demonstration of a versatile data grid component that can be configured to display data in various formats:
 
-- **Fullbleed Gallery Mode**: Borderless image grid with click handlers and modal support
+- **Fullbleed Gallery Mode**: Pure immersive image wall with custom navigation cells and modal support
 - **Spreadsheet Mode**: Excel/Sheets-like interface with sortable headers and searchable data
 - **Nested List Mode**: Tree/hierarchical data display with ASCII connectors and expand/collapse
 - **Workflow/Planning Mode**: Editable cells for task management and planning applications  
@@ -15,6 +15,7 @@ CROW is a demonstration of a versatile data grid component that can be configure
 ## Key Features
 
 - 🎨 **Multiple Display Modes**: Switch between gallery, nested list, spreadsheet, and workflow views
+- 🖼️ **Custom Cell Rendering**: Replace any grid cell with custom components (navigation, widgets, etc.)
 - 🌲 **Tree Diagrams**: ASCII-style tree connectors (├──, │, └──) for hierarchical data visualization
 - ⚡ **Virtual Scrolling**: Handles 10,000+ rows with smooth 60fps performance
 - 🔧 **Highly Configurable**: Declarative API for customizing every aspect

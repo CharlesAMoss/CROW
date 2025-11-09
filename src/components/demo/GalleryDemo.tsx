@@ -11,14 +11,51 @@ import type { RowData } from '../../types/grid.types';
 import type { DataProvider, QueryParams, DataResponse } from '../../types/data.types';
 import styles from './GalleryDemo.module.css';
 
+export interface GalleryDemoProps {
+  onNavigate?: (mode: 'nested' | 'virtual') => void;
+}
+
 /**
  * In-memory data provider for gallery images
+ * Repeats images to fill screen (minimum 100 images)
+ * Injects navigation cell at position 0 (first cell)
  */
 class GalleryDataProvider implements DataProvider<RowData> {
   private data: ImageData[];
 
-  constructor(data: ImageData[]) {
-    this.data = data;
+  constructor(data: ImageData[], _onNavigate?: (mode: 'nested' | 'virtual') => void) {
+    
+    // Repeat images to ensure screen is filled (aim for ~100 images)
+    const repeatCount = Math.ceil(100 / data.length);
+    const repeatedData: ImageData[] = [];
+    
+    for (let i = 0; i < repeatCount; i++) {
+      data.forEach((img, idx) => {
+        repeatedData.push({
+          ...img,
+          id: i * data.length + idx + 1, // Unique IDs
+        });
+      });
+    }
+    
+    // Insert navigation cell as the first item
+    this.data = [
+      {
+        id: 0,
+        title: 'Navigation',
+        imageUrl: '__NAVIGATION__', // Special marker
+        thumbnailUrl: '__NAVIGATION__',
+        photographer: 'CROW',
+        description: 'Navigate to other demo modes',
+        tags: ['navigation'],
+        width: 800,
+        height: 800,
+        likes: 0,
+        downloads: 0,
+        createdAt: new Date(),
+      } as ImageData,
+      ...repeatedData,
+    ];
   }
 
   async fetch(params?: QueryParams): Promise<DataResponse<RowData>> {
@@ -46,8 +83,8 @@ class GalleryDataProvider implements DataProvider<RowData> {
   }
 }
 
-export function GalleryDemo() {
-  const [dataProvider] = useState(() => new GalleryDataProvider(mockImages));
+export function GalleryDemo({ onNavigate }: GalleryDemoProps) {
+  const [dataProvider] = useState(() => new GalleryDataProvider(mockImages, onNavigate));
 
   const config: GridConfig<RowData> = {
     displayMode: 'fullbleed',
@@ -137,100 +174,11 @@ export function GalleryDemo() {
   };
 
   return (
-    <div className={styles.demoPage}>
-      <div className={styles.header}>
-        <h1>Gallery Mode Demo</h1>
-        <p className={styles.description}>
-          Fullbleed image gallery with modal viewer. Click any image to view details.
-          Supports filtering by title, photographer, or tags.
-        </p>
-      </div>
-
-      <div className={styles.gridWrapper}>
-        <GridContainer<RowData>
-          config={config}
-          dataProvider={dataProvider}
-        />
-      </div>
-
-      <div className={styles.features}>
-        <h2>Features</h2>
-        <div className={styles.featureGrid}>
-          <div className={styles.featureItem}>
-            <strong>Fullbleed Layout</strong>
-            <span>CSS Grid with no gaps</span>
-          </div>
-          <div className={styles.featureItem}>
-            <strong>Modal Viewer</strong>
-            <span>Full-screen view + metadata</span>
-          </div>
-          <div className={styles.featureItem}>
-            <strong>Responsive</strong>
-            <span>Adapts to screen size</span>
-          </div>
-          <div className={styles.featureItem}>
-            <strong>Lazy Loading</strong>
-            <span>On-demand performance</span>
-          </div>
-          <div className={styles.featureItem}>
-            <strong>Loading States</strong>
-            <span>Spinner while loading</span>
-          </div>
-          <div className={styles.featureItem}>
-            <strong>Error Handling</strong>
-            <span>Graceful fallbacks</span>
-          </div>
-          <div className={styles.featureItem}>
-            <strong>Filtering</strong>
-            <span>Search & filter images</span>
-          </div>
-          <div className={styles.featureItem}>
-            <strong>Sorting</strong>
-            <span>Multi-column sorting</span>
-          </div>
-          <div className={styles.featureItem}>
-            <strong>Selection</strong>
-            <span>Multi-select support</span>
-          </div>
-          <div className={styles.featureItem}>
-            <strong>Keyboard Nav</strong>
-            <span>Tab, Enter, Escape</span>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.usage}>
-        <h2>Quick Start</h2>
-        <div className={styles.usageGrid}>
-          <div className={styles.codeSection}>
-            <pre><code dangerouslySetInnerHTML={{ __html: `<span class="keyword">const</span> config = {
-  <span class="property">displayMode</span>: <span class="string">'fullbleed'</span>,
-  <span class="property">columns</span>: [
-    { <span class="property">key</span>: <span class="string">'imageUrl'</span>, <span class="property">header</span>: <span class="string">'Image'</span> },
-    { <span class="property">key</span>: <span class="string">'title'</span>, <span class="property">header</span>: <span class="string">'Title'</span> }
-  ]
-};
-
-&lt;<span class="component">GridContainer</span> 
-  <span class="property">config</span>={config} 
-  <span class="property">dataProvider</span>={provider} 
-/&gt;` }} /></pre>
-          </div>
-          <div className={styles.explanationSection}>
-            <h3>Configuration</h3>
-            <p>Set <code>displayMode: 'fullbleed'</code> to enable gallery layout.</p>
-            
-            <h3>Image Column</h3>
-            <p>Include a column with image URLs. The grid auto-detects columns with keys containing "image" or "photo".</p>
-            
-            <h3>Data Provider</h3>
-            <p>Supply your data through a <code>DataProvider</code> with standard CRUD methods.</p>
-            
-            <h3>Features</h3>
-            <p>Enable sorting, filtering, and selection in the <code>features</code> config object.</p>
-          </div>
-        </div>
-      </div>
+    <div className={styles.fullbleedContainer}>
+      <GridContainer<RowData>
+        config={config}
+        dataProvider={dataProvider}
+      />
     </div>
   );
 }

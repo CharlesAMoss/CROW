@@ -23,8 +23,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 0; /* Fullbleed - no gaps between images */
-  overflow-y: auto;
-  max-height: 600px; /* Default height, can be overridden */
+  width: 100%;
+  min-height: 100vh; /* Full viewport height minimum */
+  height: auto; /* Allow natural height based on content */
 }
 
 /* Responsive breakpoints for gallery */

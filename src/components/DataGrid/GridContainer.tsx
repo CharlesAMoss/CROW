@@ -127,19 +127,24 @@ export function GridContainer<T extends RowData = RowData>(props: GridContainerP
         )}
         {!loading && !error && data.length > 0 && (
           <>
-            {/* Unified control bar for filters and selection */}
-            <GridControls filterable={config.features?.filtering?.enabled === true} />
+            {/* Unified control bar for filters and selection - hide in fullbleed */}
+            {config.displayMode !== 'fullbleed' && (
+              <GridControls filterable={config.features?.filtering?.enabled === true} />
+            )}
             
             <div className={styles.gridContent}>
-              <GridHeader
-                columns={config.columns}
-                sortable={config.features?.sorting?.enabled !== false}
-                filterable={config.features?.filtering?.enabled === true}
-                headerRef={headerRef}
-                selectable={config.features?.selection?.enabled === true}
-                totalRows={data.length}
-                rowKey={config.rowKey}
-              />
+              {/* Hide header in fullbleed mode */}
+              {config.displayMode !== 'fullbleed' && (
+                <GridHeader
+                  columns={config.columns}
+                  sortable={config.features?.sorting?.enabled !== false}
+                  filterable={config.features?.filtering?.enabled === true}
+                  headerRef={headerRef}
+                  selectable={config.features?.selection?.enabled === true}
+                  totalRows={data.length}
+                  rowKey={config.rowKey}
+                />
+              )}
               <GridBody
                 data={data}
                 columns={config.columns}

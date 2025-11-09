@@ -8,6 +8,7 @@ import { GridRow } from './GridRow';
 import { VirtualScroller } from './VirtualScroller';
 import { ImageCell } from './ImageCell';
 import { ImageModal } from './ImageModal';
+import { NavigationCell } from './NavigationCell';
 import { useGridContext } from './GridContext';
 import { flattenTree, filterExpandedNodes } from '../../utils/treeUtils';
 import type { ColumnDefinition } from '../../types/config.types';
@@ -132,6 +133,21 @@ export function GridBody<T extends RowData = RowData>({
         >
           {data.map((row, index) => {
             const imageUrl = String(row[imageColumn.key]);
+            
+            // Check for special navigation marker
+            if (imageUrl === '__NAVIGATION__') {
+              return (
+                <NavigationCell
+                  key={getRowId(row, index)}
+                  onNavigate={(mode) => {
+                    // Store navigation mode in window for App to handle
+                    (window as any).__crowNavigate = mode;
+                    window.dispatchEvent(new CustomEvent('crow-navigate', { detail: mode }));
+                  }}
+                />
+              );
+            }
+            
             const altText = columns.find(col => col.key === 'title' || col.key === 'name')
               ? String(row[columns.find(col => col.key === 'title' || col.key === 'name')!.key] || 'Image')
               : 'Image';
